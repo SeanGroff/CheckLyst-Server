@@ -1,0 +1,47 @@
+{
+  "name": "checklyst-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/app",
+  "scripts": {
+    "start": "node src/app",
+    "dev": "nodemon src/app",
+    "lint": "eslint src/**/*.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SeanGroff/CheckLyst-Server.git"
+  },
+  "author": "Sean Groff <sgroff04@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/SeanGroff/CheckLyst-Server/issues"
+  },
+  "homepage": "https://github.com/SeanGroff/CheckLyst-Server#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "connect-mongo": "^2.0.1",
+    "cors": "^2.8.4",
+    "dotenv": "^6.0.0",
+    "express": "^4.16.3",
+    "express-session": "^1.15.6",
+    "jsonwebtoken": "^8.3.0",
+    "mongoose": "^5.2.7",
+    "mongoose-mongodb-errors": "^0.0.2",
+    "morgan": "^1.9.0",
+    "passport": "^0.4.0",
+    "passport-google-oauth20": "^1.0.0"
+  },
+  "devDependencies": {
+    "babel-eslint": "^8.2.6",
+    "babel-plugin-transform-imports": "^1.5.0",
+    "eslint": "^5.3.0",
+    "eslint-config-standard": "^11.0.0",
+    "eslint-plugin-import": "^2.13.0",
+    "eslint-plugin-node": "^7.0.1",
+    "eslint-plugin-promise": "^3.8.0",
+    "eslint-plugin-standard": "^3.1.0",
+    "nodemon": "^1.18.3",
+    "prettier": "^1.14.2"
+  }
+}
