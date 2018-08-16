@@ -9,6 +9,7 @@ const morgan = require('morgan')
 const bodyParser = require('body-parser')
 const cors = require('cors')
 
+const apolloServer = require('./graphql/server')
 const config = require('./config')
 const authRoutes = require('./routes/authRoutes')
 
@@ -24,6 +25,8 @@ mongoose
   )
   .then(() => console.log('Successfully connected to DB!'))
   .catch(err => console.log(`Error connecting to DB: ${err}`))
+
+apolloServer.applyMiddleware({ app })
 
 app.use(cors())
 app.use(
@@ -46,4 +49,6 @@ app.use((err, req, res, next) => {
   res.status(500)
 })
 
-app.listen(PORT, () => console.log(`Server listening on port ${PORT}`))
+app.listen({ port: PORT }, () =>
+  console.log(`Server ready at http://localhost:${PORT}${apolloServer.graphqlPath}`)
+)
