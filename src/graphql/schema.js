@@ -24,12 +24,19 @@ const typeDefs = gql`
     dateCreated: Date
   }
 
+  type TemplateLyst {
+    id: ID
+    name: String
+    items: [Item]
+  }
+
   type User {
     id: ID
     name: String
     email: String
     avatar: String
     checkLysts: [CheckLyst]
+    templateLysts: [TemplateLyst]
     itemsCompleted: Int
     friends: [User]
   }
