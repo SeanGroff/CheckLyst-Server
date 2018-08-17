@@ -13,7 +13,7 @@ const apolloServer = require('./graphql/server')
 const config = require('./config')
 const authRoutes = require('./routes/authRoutes')
 
-require('./handlers/passport')
+require('./auth/passport')
 
 const app = express()
 const PORT = process.env.PORT || 1337
