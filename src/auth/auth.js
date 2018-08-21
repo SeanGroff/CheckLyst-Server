@@ -1,8 +1,8 @@
-const jwt = require('jsonwebtoken')
+import jwt from 'jsonwebtoken'
 
-const UserModel = require('../models/UserModel')
+import UserModel from '../models/UserModel'
 
-exports.createTokens = ({ id }) => {
+export const createTokens = ({ id }) => {
   const accessToken = jwt.sign({ id }, process.env.SECRET, { expiresIn: '20m' })
   const refreshToken = jwt.sign({ id }, process.env.SECRET, { expiresIn: '30 days' })
 
@@ -12,7 +12,7 @@ exports.createTokens = ({ id }) => {
 /**
  * if accessToken expires call this function to obtain NEW tokens.
  */
-exports.refreshTokens = async ({ tokenRefresh }) => {
+export const refreshTokens = async ({ tokenRefresh }) => {
   try {
     const { id } = jwt.verify(tokenRefresh, process.env.SECRET)
 

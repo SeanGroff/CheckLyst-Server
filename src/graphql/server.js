@@ -1,10 +1,9 @@
-const { ApolloServer } = require('apollo-server-express')
-const resolvers = require('./resolvers')
-const typeDefs = require('./schema')
+import { ApolloServer } from 'apollo-server-express'
 
-module.exports = new ApolloServer({
-  typeDefs,
-  resolvers,
+import schema from './schema'
+
+export default new ApolloServer({
+  schema,
   context: ({ req }) => ({
     // req.get() Returns the specified HTTP request header field (case-insensitive match)
     token: req.get('authorization'),

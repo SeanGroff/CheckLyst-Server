@@ -1,19 +1,19 @@
-require('dotenv').config()
+import './dotenv'
+import './auth/passport'
+import express from 'express'
+import mongoose from 'mongoose'
+import session from 'express-session'
+import passport from 'passport'
+import morgan from 'morgan'
+import bodyParser from 'body-parser'
+import cors from 'cors'
 
-const express = require('express')
-const mongoose = require('mongoose')
-const session = require('express-session')
-const passport = require('passport')
+import config from './config'
+import authRoutes from './routes/authRoutes'
+import apolloServer from './graphql/server'
+
+// Migrate to an import statement
 const MongoStore = require('connect-mongo')(session)
-const morgan = require('morgan')
-const bodyParser = require('body-parser')
-const cors = require('cors')
-
-const apolloServer = require('./graphql/server')
-const config = require('./config')
-const authRoutes = require('./routes/authRoutes')
-
-require('./auth/passport')
 
 const app = express()
 const PORT = process.env.PORT || 1337

@@ -4,9 +4,14 @@
   "description": "",
   "main": "src/app",
   "scripts": {
-    "start": "node src/app",
-    "dev": "nodemon src/app",
+    "start": "node -r esm src/app.js",
+    "dev": "nodemon -r esm src/app.js",
     "lint": "eslint src/**/*.js"
+  },
+  "esm": {
+    "mode": "all",
+    "cjs": true,
+    "await": true
   },
   "repository": {
     "type": "git",
@@ -24,6 +29,7 @@
     "connect-mongo": "^2.0.1",
     "cors": "^2.8.4",
     "dotenv": "^6.0.0",
+    "esm": "^3.0.79",
     "express": "^4.16.3",
     "express-session": "^1.15.6",
     "graphql": "^0.13.2",

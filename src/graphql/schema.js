@@ -1,45 +1,17 @@
-const { gql } = require('apollo-server-express')
+import { gql, makeExecutableSchema } from 'apollo-server-express'
 
-// GraphQL Schema
-const typeDefs = gql`
-  scalar Date
+import CheckLyst from '../checklyst/CheckLyst'
+import Item from '../checklyst/Item'
+import TemplateLyst from '../checklyst/TemplateLyst'
+import User from '../user/User'
 
+const RootQuery = gql`
   type Query {
-    hello: String
-  }
-
-  type Item {
-    id: ID
-    name: String
-    completed: Boolean
-    completedBy: User
-  }
-
-  type CheckLyst {
-    id: ID
-    name: String
-    items: [Item]
-    createdBy: User
-    users: [User]
-    dateCreated: Date
-  }
-
-  type TemplateLyst {
-    id: ID
-    name: String
-    items: [Item]
-  }
-
-  type User {
-    id: ID
-    name: String
-    email: String
-    avatar: String
-    checkLysts: [CheckLyst]
-    templateLysts: [TemplateLyst]
-    itemsCompleted: Int
-    friends: [User]
+    _empty: String
   }
 `
 
-module.exports = typeDefs
+export default makeExecutableSchema({
+  typeDefs: [RootQuery, CheckLyst, Item, TemplateLyst, User],
+  resolvers: {},
+})
