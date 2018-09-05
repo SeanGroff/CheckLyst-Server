@@ -1,6 +1,7 @@
 import './dotenv'
 import './auth/passport'
 import express from 'express'
+import helmet from 'helmet'
 import mongoose from 'mongoose'
 import session from 'express-session'
 import passport from 'passport'
@@ -16,18 +17,10 @@ import apolloServer from './graphql/server'
 const MongoStore = require('connect-mongo')(session)
 
 const app = express()
+
 const PORT = process.env.PORT || 1337
 
-mongoose
-  .connect(
-    config.database,
-    { useNewUrlParser: true }
-  )
-  .then(() => console.log('Successfully connected to DB!'))
-  .catch(err => console.log(`Error connecting to DB: ${err}`))
-
-apolloServer.applyMiddleware({ app })
-
+app.use(helmet())
 app.use(cors())
 app.use(
   session({
@@ -48,6 +41,16 @@ app.use((err, req, res, next) => {
   console.error(err.stack)
   res.status(500)
 })
+
+mongoose
+  .connect(
+    config.database,
+    { useNewUrlParser: true }
+  )
+  .then(() => console.log('Successfully connected to DB!'))
+  .catch(err => console.log(`Error connecting to DB: ${err}`))
+
+apolloServer.applyMiddleware({ app })
 
 app.listen({ port: PORT }, () =>
   console.log(`Server ready at http://localhost:${PORT}${apolloServer.graphqlPath}`)
