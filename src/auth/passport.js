@@ -14,6 +14,7 @@ passport.deserializeUser(async (id, done) => {
     const user = await UserModel.findById(id)
     done(null, user)
   } catch (err) {
+    // eslint-disable-next-line
     console.log(err)
   }
 })
@@ -44,6 +45,7 @@ passport.use(
           return done(null, newUser)
         }
       } catch (err) {
+        // eslint-disable-next-line
         console.log(err)
         return done(err)
       }

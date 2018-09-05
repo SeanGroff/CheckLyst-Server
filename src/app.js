@@ -37,7 +37,9 @@ app.use(passport.initialize())
 app.use(passport.session())
 app.use('/auth', authRoutes)
 app.use((err, req, res, next) => {
+  // eslint-disable-next-line
   console.log('====== ERROR =======')
+  // eslint-disable-next-line
   console.error(err.stack)
   res.status(500)
 })
@@ -47,11 +49,12 @@ mongoose
     config.database,
     { useNewUrlParser: true }
   )
-  .then(() => console.log('Successfully connected to DB!'))
-  .catch(err => console.log(`Error connecting to DB: ${err}`))
+  .then(() => console.log('Successfully connected to DB!')) // eslint-disable-line
+  .catch(err => console.log(`Error connecting to DB: ${err}`)) // eslint-disable-line
 
 apolloServer.applyMiddleware({ app })
 
-app.listen({ port: PORT }, () =>
-  console.log(`Server ready at http://localhost:${PORT}${apolloServer.graphqlPath}`)
+app.listen(
+  { port: PORT },
+  () => console.log(`Server ready at http://localhost:${PORT}${apolloServer.graphqlPath}`) // eslint-disable-line
 )
