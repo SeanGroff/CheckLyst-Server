@@ -5,7 +5,7 @@ import User from '../user/User'
 
 const CheckLyst = gql`
   extend type Query {
-    getCheckLyst(id: Int!): CheckLyst
+    getCheckLyst(id: ID!): CheckLyst
   }
 
   type CheckLyst {
@@ -15,6 +15,7 @@ const CheckLyst = gql`
     createdBy: User
     users: [User]
     dateCreated: String
+    activityLog: [Activity]
   }
 `
 

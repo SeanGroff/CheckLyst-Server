@@ -2,6 +2,7 @@ import { gql } from 'apollo-server-express'
 
 import CheckLyst from '../checklyst/CheckLyst'
 import TemplateLyst from '../checklyst/TemplateLyst'
+import Team from '../team/Team'
 
 const User = gql`
   extend type Query {
@@ -17,8 +18,9 @@ const User = gql`
     checkLysts: [CheckLyst]
     templateLysts: [TemplateLyst]
     itemsCompleted: Int
-    friends: [User]
+    pro: Boolean
+    teams: [Team]
   }
 `
 
-export default () => [User, CheckLyst, TemplateLyst]
+export default () => [User, CheckLyst, TemplateLyst, Team]
