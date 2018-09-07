@@ -6,6 +6,7 @@ import TemplateLyst from '../checklyst/TemplateLyst'
 import User from '../user/User'
 import Activity from '../checklyst/Activity'
 import Team from '../team/Team'
+import Label from '../checklyst/Label'
 
 const RootQuery = gql`
   type Query {
@@ -14,6 +15,6 @@ const RootQuery = gql`
 `
 
 export default makeExecutableSchema({
-  typeDefs: [RootQuery, CheckLyst, Item, TemplateLyst, User, Activity, Team],
+  typeDefs: [RootQuery, CheckLyst, Item, TemplateLyst, User, Activity, Team, Label],
   resolvers: {},
 })

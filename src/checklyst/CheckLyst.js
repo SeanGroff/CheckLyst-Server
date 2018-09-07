@@ -2,6 +2,7 @@ import { gql } from 'apollo-server-express'
 
 import Item from './Item'
 import User from '../user/User'
+import Label from '../checklyst/Label'
 
 const CheckLyst = gql`
   extend type Query {
@@ -16,7 +17,8 @@ const CheckLyst = gql`
     users: [User]
     dateCreated: String
     activityLog: [Activity]
+    label: Label
   }
 `
 
-export default () => [CheckLyst, Item, User]
+export default () => [CheckLyst, Item, User, Label]
