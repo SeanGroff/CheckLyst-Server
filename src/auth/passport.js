@@ -1,7 +1,9 @@
-const passport = require('passport')
-const GoogleStrategy = require('passport-google-oauth20').Strategy
+import passport from 'passport'
+import oauth from 'passport-google-oauth20'
 
-const UserModel = require('../models/UserModel')
+import UserModel from '../models/UserModel'
+
+const GoogleStrategy = oauth.Strategy
 
 passport.serializeUser((user, done) => {
   done(null, user.id)
@@ -12,6 +14,7 @@ passport.deserializeUser(async (id, done) => {
     const user = await UserModel.findById(id)
     done(null, user)
   } catch (err) {
+    // eslint-disable-next-line
     console.log(err)
   }
 })
@@ -42,6 +45,7 @@ passport.use(
           return done(null, newUser)
         }
       } catch (err) {
+        // eslint-disable-next-line
         console.log(err)
         return done(err)
       }

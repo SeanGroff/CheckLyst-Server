@@ -1,13 +1,14 @@
-const router = require('express').Router()
-const passport = require('passport')
-// const jwt = require('jsonwebtoken')
+import Express from 'express'
+import passport from 'passport'
 
-const auth = require('../auth/auth')
+import { createTokens } from '../auth/auth'
+
+const router = Express.Router()
 
 router.get('/google', passport.authenticate('google', { scope: ['profile'] }))
 
 router.get('/google/callback', passport.authenticate('google'), async (req, res) => {
-  const [accessToken, refreshToken] = await auth.createTokens({ id: req.user._id })
+  const [accessToken, refreshToken] = await createTokens({ id: req.user._id })
 
   res.redirect(`${process.env.CLIENT_URI}/?token=${accessToken}&refresh=${refreshToken}`)
 })
@@ -32,4 +33,4 @@ router.post('/logout', (req, res) => {
   res.status(200).send({ success: true })
 })
 
-module.exports = router
+export default router

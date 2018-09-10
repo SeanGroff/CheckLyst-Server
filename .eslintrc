@@ -9,9 +9,15 @@
     "node": true,
     "es6": true
   },
-  "extends": ["standard"],
-  "plugins": [],
+  "extends": [
+    "standard",
+    "plugin:prettier/recommended",
+    "plugin:security/recommended",
+    "prettier/standard"
+  ],
+  "plugins": ["prettier", "security"],
   "rules": {
+    "no-console": "error",
     "comma-dangle": ["error", "always-multiline"],
     "space-before-function-paren": [
       "error",

@@ -1,5 +1,5 @@
-const mongoose = require('mongoose')
-const mongodbErrorHandler = require('mongoose-mongodb-errors')
+import mongoose from 'mongoose'
+import mongodbErrorHandler from 'mongoose-mongodb-errors'
 
 const Schema = mongoose.Schema
 
@@ -15,4 +15,4 @@ const userSchema = new Schema({
 
 userSchema.plugin(mongodbErrorHandler)
 
-module.exports = mongoose.model('UserModel', userSchema)
+export default mongoose.model('UserModel', userSchema)
