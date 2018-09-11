@@ -1,0 +1,2507 @@
+# source: https://checklyst-server.herokuapp.com/CheckLyst-Server/dev
+# timestamp: Tue Sep 11 2018 07:44:08 GMT-0500 (Central Daylight Time)
+
+type Activity implements Node {
+  id: ID!
+  type: ActivityType!
+  user(where: UserWhereInput): User!
+  checkLyst(where: CheckLystWhereInput): CheckLyst!
+}
+
+"""A connection to a list of items."""
+type ActivityConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [ActivityEdge]!
+  aggregate: AggregateActivity!
+}
+
+input ActivityCreateInput {
+  type: ActivityType!
+  user: UserCreateOneInput!
+  checkLyst: CheckLystCreateOneWithoutActivityLogInput!
+}
+
+input ActivityCreateManyInput {
+  create: [ActivityCreateInput!]
+  connect: [ActivityWhereUniqueInput!]
+}
+
+input ActivityCreateManyWithoutCheckLystInput {
+  create: [ActivityCreateWithoutCheckLystInput!]
+  connect: [ActivityWhereUniqueInput!]
+}
+
+input ActivityCreateWithoutCheckLystInput {
+  type: ActivityType!
+  user: UserCreateOneInput!
+}
+
+"""An edge in a connection."""
+type ActivityEdge {
+  """The item at the end of the edge."""
+  node: Activity!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum ActivityOrderByInput {
+  id_ASC
+  id_DESC
+  type_ASC
+  type_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
+}
+
+type ActivityPreviousValues {
+  id: ID!
+  type: ActivityType!
+}
+
+type ActivitySubscriptionPayload {
+  mutation: MutationType!
+  node: Activity
+  updatedFields: [String!]
+  previousValues: ActivityPreviousValues
+}
+
+input ActivitySubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [ActivitySubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [ActivitySubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [ActivitySubscriptionWhereInput!]
+
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: ActivityWhereInput
+}
+
+enum ActivityType {
+  CREATE
+  EDIT
+  DELETE
+  COMPLETE
+}
+
+input ActivityUpdateDataInput {
+  type: ActivityType
+  user: UserUpdateOneInput
+  checkLyst: CheckLystUpdateOneWithoutActivityLogInput
+}
+
+input ActivityUpdateInput {
+  type: ActivityType
+  user: UserUpdateOneInput
+  checkLyst: CheckLystUpdateOneWithoutActivityLogInput
+}
+
+input ActivityUpdateManyInput {
+  create: [ActivityCreateInput!]
+  connect: [ActivityWhereUniqueInput!]
+  disconnect: [ActivityWhereUniqueInput!]
+  delete: [ActivityWhereUniqueInput!]
+  update: [ActivityUpdateWithWhereUniqueNestedInput!]
+  upsert: [ActivityUpsertWithWhereUniqueNestedInput!]
+}
+
+input ActivityUpdateManyWithoutCheckLystInput {
+  create: [ActivityCreateWithoutCheckLystInput!]
+  connect: [ActivityWhereUniqueInput!]
+  disconnect: [ActivityWhereUniqueInput!]
+  delete: [ActivityWhereUniqueInput!]
+  update: [ActivityUpdateWithWhereUniqueWithoutCheckLystInput!]
+  upsert: [ActivityUpsertWithWhereUniqueWithoutCheckLystInput!]
+}
+
+input ActivityUpdateWithoutCheckLystDataInput {
+  type: ActivityType
+  user: UserUpdateOneInput
+}
+
+input ActivityUpdateWithWhereUniqueNestedInput {
+  where: ActivityWhereUniqueInput!
+  data: ActivityUpdateDataInput!
+}
+
+input ActivityUpdateWithWhereUniqueWithoutCheckLystInput {
+  where: ActivityWhereUniqueInput!
+  data: ActivityUpdateWithoutCheckLystDataInput!
+}
+
+input ActivityUpsertWithWhereUniqueNestedInput {
+  where: ActivityWhereUniqueInput!
+  update: ActivityUpdateDataInput!
+  create: ActivityCreateInput!
+}
+
+input ActivityUpsertWithWhereUniqueWithoutCheckLystInput {
+  where: ActivityWhereUniqueInput!
+  update: ActivityUpdateWithoutCheckLystDataInput!
+  create: ActivityCreateWithoutCheckLystInput!
+}
+
+input ActivityWhereInput {
+  """Logical AND on all given filters."""
+  AND: [ActivityWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [ActivityWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [ActivityWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  type: ActivityType
+
+  """All values that are not equal to given value."""
+  type_not: ActivityType
+
+  """All values that are contained in given list."""
+  type_in: [ActivityType!]
+
+  """All values that are not contained in given list."""
+  type_not_in: [ActivityType!]
+  user: UserWhereInput
+  checkLyst: CheckLystWhereInput
+  _MagicalBackRelation_ActivityToTeam_every: TeamWhereInput
+  _MagicalBackRelation_ActivityToTeam_some: TeamWhereInput
+  _MagicalBackRelation_ActivityToTeam_none: TeamWhereInput
+}
+
+input ActivityWhereUniqueInput {
+  id: ID
+}
+
+type AggregateActivity {
+  count: Int!
+}
+
+type AggregateCheckLyst {
+  count: Int!
+}
+
+type AggregateItem {
+  count: Int!
+}
+
+type AggregateLabel {
+  count: Int!
+}
+
+type AggregateTeam {
+  count: Int!
+}
+
+type AggregateTemplateLyst {
+  count: Int!
+}
+
+type AggregateUser {
+  count: Int!
+}
+
+type BatchPayload {
+  """The number of nodes that have been affected by the Batch operation."""
+  count: Long!
+}
+
+type CheckLyst implements Node {
+  id: ID!
+  name: String!
+  items(where: ItemWhereInput, orderBy: ItemOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Item!]
+  createdBy(where: UserWhereInput): User!
+  users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
+  activityLog(where: ActivityWhereInput, orderBy: ActivityOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Activity!]
+  label(where: LabelWhereInput): Label
+  teams(where: TeamWhereInput, orderBy: TeamOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Team!]
+}
+
+"""A connection to a list of items."""
+type CheckLystConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [CheckLystEdge]!
+  aggregate: AggregateCheckLyst!
+}
+
+input CheckLystCreateInput {
+  name: String!
+  items: ItemCreateManyInput
+  createdBy: UserCreateOneInput!
+  users: UserCreateManyWithoutCheckLystsInput
+  activityLog: ActivityCreateManyWithoutCheckLystInput
+  label: LabelCreateOneWithoutCheckLystsInput
+  teams: TeamCreateManyWithoutCheckLystsInput
+}
+
+input CheckLystCreateManyWithoutLabelInput {
+  create: [CheckLystCreateWithoutLabelInput!]
+  connect: [CheckLystWhereUniqueInput!]
+}
+
+input CheckLystCreateManyWithoutTeamsInput {
+  create: [CheckLystCreateWithoutTeamsInput!]
+  connect: [CheckLystWhereUniqueInput!]
+}
+
+input CheckLystCreateManyWithoutUsersInput {
+  create: [CheckLystCreateWithoutUsersInput!]
+  connect: [CheckLystWhereUniqueInput!]
+}
+
+input CheckLystCreateOneWithoutActivityLogInput {
+  create: CheckLystCreateWithoutActivityLogInput
+  connect: CheckLystWhereUniqueInput
+}
+
+input CheckLystCreateWithoutActivityLogInput {
+  name: String!
+  items: ItemCreateManyInput
+  createdBy: UserCreateOneInput!
+  users: UserCreateManyWithoutCheckLystsInput
+  label: LabelCreateOneWithoutCheckLystsInput
+  teams: TeamCreateManyWithoutCheckLystsInput
+}
+
+input CheckLystCreateWithoutLabelInput {
+  name: String!
+  items: ItemCreateManyInput
+  createdBy: UserCreateOneInput!
+  users: UserCreateManyWithoutCheckLystsInput
+  activityLog: ActivityCreateManyWithoutCheckLystInput
+  teams: TeamCreateManyWithoutCheckLystsInput
+}
+
+input CheckLystCreateWithoutTeamsInput {
+  name: String!
+  items: ItemCreateManyInput
+  createdBy: UserCreateOneInput!
+  users: UserCreateManyWithoutCheckLystsInput
+  activityLog: ActivityCreateManyWithoutCheckLystInput
+  label: LabelCreateOneWithoutCheckLystsInput
+}
+
+input CheckLystCreateWithoutUsersInput {
+  name: String!
+  items: ItemCreateManyInput
+  createdBy: UserCreateOneInput!
+  activityLog: ActivityCreateManyWithoutCheckLystInput
+  label: LabelCreateOneWithoutCheckLystsInput
+  teams: TeamCreateManyWithoutCheckLystsInput
+}
+
+"""An edge in a connection."""
+type CheckLystEdge {
+  """The item at the end of the edge."""
+  node: CheckLyst!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum CheckLystOrderByInput {
+  id_ASC
+  id_DESC
+  name_ASC
+  name_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
+}
+
+type CheckLystPreviousValues {
+  id: ID!
+  name: String!
+}
+
+type CheckLystSubscriptionPayload {
+  mutation: MutationType!
+  node: CheckLyst
+  updatedFields: [String!]
+  previousValues: CheckLystPreviousValues
+}
+
+input CheckLystSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [CheckLystSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [CheckLystSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [CheckLystSubscriptionWhereInput!]
+
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: CheckLystWhereInput
+}
+
+input CheckLystUpdateInput {
+  name: String
+  items: ItemUpdateManyInput
+  createdBy: UserUpdateOneInput
+  users: UserUpdateManyWithoutCheckLystsInput
+  activityLog: ActivityUpdateManyWithoutCheckLystInput
+  label: LabelUpdateOneWithoutCheckLystsInput
+  teams: TeamUpdateManyWithoutCheckLystsInput
+}
+
+input CheckLystUpdateManyWithoutLabelInput {
+  create: [CheckLystCreateWithoutLabelInput!]
+  connect: [CheckLystWhereUniqueInput!]
+  disconnect: [CheckLystWhereUniqueInput!]
+  delete: [CheckLystWhereUniqueInput!]
+  update: [CheckLystUpdateWithWhereUniqueWithoutLabelInput!]
+  upsert: [CheckLystUpsertWithWhereUniqueWithoutLabelInput!]
+}
+
+input CheckLystUpdateManyWithoutTeamsInput {
+  create: [CheckLystCreateWithoutTeamsInput!]
+  connect: [CheckLystWhereUniqueInput!]
+  disconnect: [CheckLystWhereUniqueInput!]
+  delete: [CheckLystWhereUniqueInput!]
+  update: [CheckLystUpdateWithWhereUniqueWithoutTeamsInput!]
+  upsert: [CheckLystUpsertWithWhereUniqueWithoutTeamsInput!]
+}
+
+input CheckLystUpdateManyWithoutUsersInput {
+  create: [CheckLystCreateWithoutUsersInput!]
+  connect: [CheckLystWhereUniqueInput!]
+  disconnect: [CheckLystWhereUniqueInput!]
+  delete: [CheckLystWhereUniqueInput!]
+  update: [CheckLystUpdateWithWhereUniqueWithoutUsersInput!]
+  upsert: [CheckLystUpsertWithWhereUniqueWithoutUsersInput!]
+}
+
+input CheckLystUpdateOneWithoutActivityLogInput {
+  create: CheckLystCreateWithoutActivityLogInput
+  connect: CheckLystWhereUniqueInput
+  delete: Boolean
+  update: CheckLystUpdateWithoutActivityLogDataInput
+  upsert: CheckLystUpsertWithoutActivityLogInput
+}
+
+input CheckLystUpdateWithoutActivityLogDataInput {
+  name: String
+  items: ItemUpdateManyInput
+  createdBy: UserUpdateOneInput
+  users: UserUpdateManyWithoutCheckLystsInput
+  label: LabelUpdateOneWithoutCheckLystsInput
+  teams: TeamUpdateManyWithoutCheckLystsInput
+}
+
+input CheckLystUpdateWithoutLabelDataInput {
+  name: String
+  items: ItemUpdateManyInput
+  createdBy: UserUpdateOneInput
+  users: UserUpdateManyWithoutCheckLystsInput
+  activityLog: ActivityUpdateManyWithoutCheckLystInput
+  teams: TeamUpdateManyWithoutCheckLystsInput
+}
+
+input CheckLystUpdateWithoutTeamsDataInput {
+  name: String
+  items: ItemUpdateManyInput
+  createdBy: UserUpdateOneInput
+  users: UserUpdateManyWithoutCheckLystsInput
+  activityLog: ActivityUpdateManyWithoutCheckLystInput
+  label: LabelUpdateOneWithoutCheckLystsInput
+}
+
+input CheckLystUpdateWithoutUsersDataInput {
+  name: String
+  items: ItemUpdateManyInput
+  createdBy: UserUpdateOneInput
+  activityLog: ActivityUpdateManyWithoutCheckLystInput
+  label: LabelUpdateOneWithoutCheckLystsInput
+  teams: TeamUpdateManyWithoutCheckLystsInput
+}
+
+input CheckLystUpdateWithWhereUniqueWithoutLabelInput {
+  where: CheckLystWhereUniqueInput!
+  data: CheckLystUpdateWithoutLabelDataInput!
+}
+
+input CheckLystUpdateWithWhereUniqueWithoutTeamsInput {
+  where: CheckLystWhereUniqueInput!
+  data: CheckLystUpdateWithoutTeamsDataInput!
+}
+
+input CheckLystUpdateWithWhereUniqueWithoutUsersInput {
+  where: CheckLystWhereUniqueInput!
+  data: CheckLystUpdateWithoutUsersDataInput!
+}
+
+input CheckLystUpsertWithoutActivityLogInput {
+  update: CheckLystUpdateWithoutActivityLogDataInput!
+  create: CheckLystCreateWithoutActivityLogInput!
+}
+
+input CheckLystUpsertWithWhereUniqueWithoutLabelInput {
+  where: CheckLystWhereUniqueInput!
+  update: CheckLystUpdateWithoutLabelDataInput!
+  create: CheckLystCreateWithoutLabelInput!
+}
+
+input CheckLystUpsertWithWhereUniqueWithoutTeamsInput {
+  where: CheckLystWhereUniqueInput!
+  update: CheckLystUpdateWithoutTeamsDataInput!
+  create: CheckLystCreateWithoutTeamsInput!
+}
+
+input CheckLystUpsertWithWhereUniqueWithoutUsersInput {
+  where: CheckLystWhereUniqueInput!
+  update: CheckLystUpdateWithoutUsersDataInput!
+  create: CheckLystCreateWithoutUsersInput!
+}
+
+input CheckLystWhereInput {
+  """Logical AND on all given filters."""
+  AND: [CheckLystWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [CheckLystWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [CheckLystWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  name: String
+
+  """All values that are not equal to given value."""
+  name_not: String
+
+  """All values that are contained in given list."""
+  name_in: [String!]
+
+  """All values that are not contained in given list."""
+  name_not_in: [String!]
+
+  """All values less than the given value."""
+  name_lt: String
+
+  """All values less than or equal the given value."""
+  name_lte: String
+
+  """All values greater than the given value."""
+  name_gt: String
+
+  """All values greater than or equal the given value."""
+  name_gte: String
+
+  """All values containing the given string."""
+  name_contains: String
+
+  """All values not containing the given string."""
+  name_not_contains: String
+
+  """All values starting with the given string."""
+  name_starts_with: String
+
+  """All values not starting with the given string."""
+  name_not_starts_with: String
+
+  """All values ending with the given string."""
+  name_ends_with: String
+
+  """All values not ending with the given string."""
+  name_not_ends_with: String
+  items_every: ItemWhereInput
+  items_some: ItemWhereInput
+  items_none: ItemWhereInput
+  createdBy: UserWhereInput
+  users_every: UserWhereInput
+  users_some: UserWhereInput
+  users_none: UserWhereInput
+  activityLog_every: ActivityWhereInput
+  activityLog_some: ActivityWhereInput
+  activityLog_none: ActivityWhereInput
+  label: LabelWhereInput
+  teams_every: TeamWhereInput
+  teams_some: TeamWhereInput
+  teams_none: TeamWhereInput
+}
+
+input CheckLystWhereUniqueInput {
+  id: ID
+}
+
+enum Color {
+  BLUE
+  GREEN
+  PINK
+  ORANGE
+  PURPLE
+}
+
+type Item implements Node {
+  id: ID!
+  name: String!
+  completed: Boolean!
+  completedBy(where: UserWhereInput): User
+}
+
+"""A connection to a list of items."""
+type ItemConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [ItemEdge]!
+  aggregate: AggregateItem!
+}
+
+input ItemCreateInput {
+  name: String!
+  completed: Boolean
+  completedBy: UserCreateOneInput
+}
+
+input ItemCreateManyInput {
+  create: [ItemCreateInput!]
+  connect: [ItemWhereUniqueInput!]
+}
+
+"""An edge in a connection."""
+type ItemEdge {
+  """The item at the end of the edge."""
+  node: Item!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum ItemOrderByInput {
+  id_ASC
+  id_DESC
+  name_ASC
+  name_DESC
+  completed_ASC
+  completed_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
+}
+
+type ItemPreviousValues {
+  id: ID!
+  name: String!
+  completed: Boolean!
+}
+
+type ItemSubscriptionPayload {
+  mutation: MutationType!
+  node: Item
+  updatedFields: [String!]
+  previousValues: ItemPreviousValues
+}
+
+input ItemSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [ItemSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [ItemSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [ItemSubscriptionWhereInput!]
+
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: ItemWhereInput
+}
+
+input ItemUpdateDataInput {
+  name: String
+  completed: Boolean
+  completedBy: UserUpdateOneInput
+}
+
+input ItemUpdateInput {
+  name: String
+  completed: Boolean
+  completedBy: UserUpdateOneInput
+}
+
+input ItemUpdateManyInput {
+  create: [ItemCreateInput!]
+  connect: [ItemWhereUniqueInput!]
+  disconnect: [ItemWhereUniqueInput!]
+  delete: [ItemWhereUniqueInput!]
+  update: [ItemUpdateWithWhereUniqueNestedInput!]
+  upsert: [ItemUpsertWithWhereUniqueNestedInput!]
+}
+
+input ItemUpdateWithWhereUniqueNestedInput {
+  where: ItemWhereUniqueInput!
+  data: ItemUpdateDataInput!
+}
+
+input ItemUpsertWithWhereUniqueNestedInput {
+  where: ItemWhereUniqueInput!
+  update: ItemUpdateDataInput!
+  create: ItemCreateInput!
+}
+
+input ItemWhereInput {
+  """Logical AND on all given filters."""
+  AND: [ItemWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [ItemWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [ItemWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  name: String
+
+  """All values that are not equal to given value."""
+  name_not: String
+
+  """All values that are contained in given list."""
+  name_in: [String!]
+
+  """All values that are not contained in given list."""
+  name_not_in: [String!]
+
+  """All values less than the given value."""
+  name_lt: String
+
+  """All values less than or equal the given value."""
+  name_lte: String
+
+  """All values greater than the given value."""
+  name_gt: String
+
+  """All values greater than or equal the given value."""
+  name_gte: String
+
+  """All values containing the given string."""
+  name_contains: String
+
+  """All values not containing the given string."""
+  name_not_contains: String
+
+  """All values starting with the given string."""
+  name_starts_with: String
+
+  """All values not starting with the given string."""
+  name_not_starts_with: String
+
+  """All values ending with the given string."""
+  name_ends_with: String
+
+  """All values not ending with the given string."""
+  name_not_ends_with: String
+  completed: Boolean
+
+  """All values that are not equal to given value."""
+  completed_not: Boolean
+  completedBy: UserWhereInput
+  _MagicalBackRelation_CheckLystToItem_every: CheckLystWhereInput
+  _MagicalBackRelation_CheckLystToItem_some: CheckLystWhereInput
+  _MagicalBackRelation_CheckLystToItem_none: CheckLystWhereInput
+  _MagicalBackRelation_ItemToTemplateLyst_every: TemplateLystWhereInput
+  _MagicalBackRelation_ItemToTemplateLyst_some: TemplateLystWhereInput
+  _MagicalBackRelation_ItemToTemplateLyst_none: TemplateLystWhereInput
+}
+
+input ItemWhereUniqueInput {
+  id: ID
+}
+
+type Label implements Node {
+  id: ID!
+  user(where: UserWhereInput): User!
+  checkLysts(where: CheckLystWhereInput, orderBy: CheckLystOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [CheckLyst!]
+  name: String!
+  color: Color!
+}
+
+"""A connection to a list of items."""
+type LabelConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [LabelEdge]!
+  aggregate: AggregateLabel!
+}
+
+input LabelCreateInput {
+  name: String!
+  color: Color!
+  user: UserCreateOneInput!
+  checkLysts: CheckLystCreateManyWithoutLabelInput
+}
+
+input LabelCreateOneWithoutCheckLystsInput {
+  create: LabelCreateWithoutCheckLystsInput
+  connect: LabelWhereUniqueInput
+}
+
+input LabelCreateWithoutCheckLystsInput {
+  name: String!
+  color: Color!
+  user: UserCreateOneInput!
+}
+
+"""An edge in a connection."""
+type LabelEdge {
+  """The item at the end of the edge."""
+  node: Label!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum LabelOrderByInput {
+  id_ASC
+  id_DESC
+  name_ASC
+  name_DESC
+  color_ASC
+  color_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
+}
+
+type LabelPreviousValues {
+  id: ID!
+  name: String!
+  color: Color!
+}
+
+type LabelSubscriptionPayload {
+  mutation: MutationType!
+  node: Label
+  updatedFields: [String!]
+  previousValues: LabelPreviousValues
+}
+
+input LabelSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [LabelSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [LabelSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [LabelSubscriptionWhereInput!]
+
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: LabelWhereInput
+}
+
+input LabelUpdateInput {
+  name: String
+  color: Color
+  user: UserUpdateOneInput
+  checkLysts: CheckLystUpdateManyWithoutLabelInput
+}
+
+input LabelUpdateOneWithoutCheckLystsInput {
+  create: LabelCreateWithoutCheckLystsInput
+  connect: LabelWhereUniqueInput
+  disconnect: Boolean
+  delete: Boolean
+  update: LabelUpdateWithoutCheckLystsDataInput
+  upsert: LabelUpsertWithoutCheckLystsInput
+}
+
+input LabelUpdateWithoutCheckLystsDataInput {
+  name: String
+  color: Color
+  user: UserUpdateOneInput
+}
+
+input LabelUpsertWithoutCheckLystsInput {
+  update: LabelUpdateWithoutCheckLystsDataInput!
+  create: LabelCreateWithoutCheckLystsInput!
+}
+
+input LabelWhereInput {
+  """Logical AND on all given filters."""
+  AND: [LabelWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [LabelWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [LabelWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  name: String
+
+  """All values that are not equal to given value."""
+  name_not: String
+
+  """All values that are contained in given list."""
+  name_in: [String!]
+
+  """All values that are not contained in given list."""
+  name_not_in: [String!]
+
+  """All values less than the given value."""
+  name_lt: String
+
+  """All values less than or equal the given value."""
+  name_lte: String
+
+  """All values greater than the given value."""
+  name_gt: String
+
+  """All values greater than or equal the given value."""
+  name_gte: String
+
+  """All values containing the given string."""
+  name_contains: String
+
+  """All values not containing the given string."""
+  name_not_contains: String
+
+  """All values starting with the given string."""
+  name_starts_with: String
+
+  """All values not starting with the given string."""
+  name_not_starts_with: String
+
+  """All values ending with the given string."""
+  name_ends_with: String
+
+  """All values not ending with the given string."""
+  name_not_ends_with: String
+  color: Color
+
+  """All values that are not equal to given value."""
+  color_not: Color
+
+  """All values that are contained in given list."""
+  color_in: [Color!]
+
+  """All values that are not contained in given list."""
+  color_not_in: [Color!]
+  user: UserWhereInput
+  checkLysts_every: CheckLystWhereInput
+  checkLysts_some: CheckLystWhereInput
+  checkLysts_none: CheckLystWhereInput
+}
+
+input LabelWhereUniqueInput {
+  id: ID
+}
+
+"""
+The `Long` scalar type represents non-fractional signed whole numeric values.
+Long can represent values between -(2^63) and 2^63 - 1.
+"""
+scalar Long
+
+type Mutation {
+  createCheckLyst(data: CheckLystCreateInput!): CheckLyst!
+  createLabel(data: LabelCreateInput!): Label!
+  createTemplateLyst(data: TemplateLystCreateInput!): TemplateLyst!
+  createTeam(data: TeamCreateInput!): Team!
+  createActivity(data: ActivityCreateInput!): Activity!
+  createUser(data: UserCreateInput!): User!
+  createItem(data: ItemCreateInput!): Item!
+  updateCheckLyst(data: CheckLystUpdateInput!, where: CheckLystWhereUniqueInput!): CheckLyst
+  updateLabel(data: LabelUpdateInput!, where: LabelWhereUniqueInput!): Label
+  updateTemplateLyst(data: TemplateLystUpdateInput!, where: TemplateLystWhereUniqueInput!): TemplateLyst
+  updateTeam(data: TeamUpdateInput!, where: TeamWhereUniqueInput!): Team
+  updateActivity(data: ActivityUpdateInput!, where: ActivityWhereUniqueInput!): Activity
+  updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
+  updateItem(data: ItemUpdateInput!, where: ItemWhereUniqueInput!): Item
+  deleteCheckLyst(where: CheckLystWhereUniqueInput!): CheckLyst
+  deleteLabel(where: LabelWhereUniqueInput!): Label
+  deleteTemplateLyst(where: TemplateLystWhereUniqueInput!): TemplateLyst
+  deleteTeam(where: TeamWhereUniqueInput!): Team
+  deleteActivity(where: ActivityWhereUniqueInput!): Activity
+  deleteUser(where: UserWhereUniqueInput!): User
+  deleteItem(where: ItemWhereUniqueInput!): Item
+  upsertCheckLyst(where: CheckLystWhereUniqueInput!, create: CheckLystCreateInput!, update: CheckLystUpdateInput!): CheckLyst!
+  upsertLabel(where: LabelWhereUniqueInput!, create: LabelCreateInput!, update: LabelUpdateInput!): Label!
+  upsertTemplateLyst(where: TemplateLystWhereUniqueInput!, create: TemplateLystCreateInput!, update: TemplateLystUpdateInput!): TemplateLyst!
+  upsertTeam(where: TeamWhereUniqueInput!, create: TeamCreateInput!, update: TeamUpdateInput!): Team!
+  upsertActivity(where: ActivityWhereUniqueInput!, create: ActivityCreateInput!, update: ActivityUpdateInput!): Activity!
+  upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
+  upsertItem(where: ItemWhereUniqueInput!, create: ItemCreateInput!, update: ItemUpdateInput!): Item!
+  updateManyCheckLysts(data: CheckLystUpdateInput!, where: CheckLystWhereInput): BatchPayload!
+  updateManyLabels(data: LabelUpdateInput!, where: LabelWhereInput): BatchPayload!
+  updateManyTemplateLysts(data: TemplateLystUpdateInput!, where: TemplateLystWhereInput): BatchPayload!
+  updateManyTeams(data: TeamUpdateInput!, where: TeamWhereInput): BatchPayload!
+  updateManyActivities(data: ActivityUpdateInput!, where: ActivityWhereInput): BatchPayload!
+  updateManyUsers(data: UserUpdateInput!, where: UserWhereInput): BatchPayload!
+  updateManyItems(data: ItemUpdateInput!, where: ItemWhereInput): BatchPayload!
+  deleteManyCheckLysts(where: CheckLystWhereInput): BatchPayload!
+  deleteManyLabels(where: LabelWhereInput): BatchPayload!
+  deleteManyTemplateLysts(where: TemplateLystWhereInput): BatchPayload!
+  deleteManyTeams(where: TeamWhereInput): BatchPayload!
+  deleteManyActivities(where: ActivityWhereInput): BatchPayload!
+  deleteManyUsers(where: UserWhereInput): BatchPayload!
+  deleteManyItems(where: ItemWhereInput): BatchPayload!
+}
+
+enum MutationType {
+  CREATED
+  UPDATED
+  DELETED
+}
+
+"""An object with an ID"""
+interface Node {
+  """The id of the object."""
+  id: ID!
+}
+
+"""Information about pagination in a connection."""
+type PageInfo {
+  """When paginating forwards, are there more items?"""
+  hasNextPage: Boolean!
+
+  """When paginating backwards, are there more items?"""
+  hasPreviousPage: Boolean!
+
+  """When paginating backwards, the cursor to continue."""
+  startCursor: String
+
+  """When paginating forwards, the cursor to continue."""
+  endCursor: String
+}
+
+type Query {
+  checkLysts(where: CheckLystWhereInput, orderBy: CheckLystOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [CheckLyst]!
+  labels(where: LabelWhereInput, orderBy: LabelOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Label]!
+  templateLysts(where: TemplateLystWhereInput, orderBy: TemplateLystOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [TemplateLyst]!
+  teams(where: TeamWhereInput, orderBy: TeamOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Team]!
+  activities(where: ActivityWhereInput, orderBy: ActivityOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Activity]!
+  users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
+  items(where: ItemWhereInput, orderBy: ItemOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Item]!
+  checkLyst(where: CheckLystWhereUniqueInput!): CheckLyst
+  label(where: LabelWhereUniqueInput!): Label
+  templateLyst(where: TemplateLystWhereUniqueInput!): TemplateLyst
+  team(where: TeamWhereUniqueInput!): Team
+  activity(where: ActivityWhereUniqueInput!): Activity
+  user(where: UserWhereUniqueInput!): User
+  item(where: ItemWhereUniqueInput!): Item
+  checkLystsConnection(where: CheckLystWhereInput, orderBy: CheckLystOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): CheckLystConnection!
+  labelsConnection(where: LabelWhereInput, orderBy: LabelOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): LabelConnection!
+  templateLystsConnection(where: TemplateLystWhereInput, orderBy: TemplateLystOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): TemplateLystConnection!
+  teamsConnection(where: TeamWhereInput, orderBy: TeamOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): TeamConnection!
+  activitiesConnection(where: ActivityWhereInput, orderBy: ActivityOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ActivityConnection!
+  usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
+  itemsConnection(where: ItemWhereInput, orderBy: ItemOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ItemConnection!
+
+  """Fetches an object given its ID"""
+  node(
+    """The ID of an object"""
+    id: ID!
+  ): Node
+}
+
+type Subscription {
+  checkLyst(where: CheckLystSubscriptionWhereInput): CheckLystSubscriptionPayload
+  label(where: LabelSubscriptionWhereInput): LabelSubscriptionPayload
+  templateLyst(where: TemplateLystSubscriptionWhereInput): TemplateLystSubscriptionPayload
+  team(where: TeamSubscriptionWhereInput): TeamSubscriptionPayload
+  activity(where: ActivitySubscriptionWhereInput): ActivitySubscriptionPayload
+  user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
+  item(where: ItemSubscriptionWhereInput): ItemSubscriptionPayload
+}
+
+type Team implements Node {
+  id: ID!
+  name: String!
+  owner(where: UserWhereInput): User!
+  admins(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
+  creators(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
+  users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
+  logo: String
+  checkLysts(where: CheckLystWhereInput, orderBy: CheckLystOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [CheckLyst!]
+  templateLysts(where: TemplateLystWhereInput, orderBy: TemplateLystOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [TemplateLyst!]
+  itemsCompleted: Int
+  activityLogs(where: ActivityWhereInput, orderBy: ActivityOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Activity!]
+}
+
+"""A connection to a list of items."""
+type TeamConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [TeamEdge]!
+  aggregate: AggregateTeam!
+}
+
+input TeamCreateInput {
+  name: String!
+  logo: String
+  itemsCompleted: Int
+  owner: UserCreateOneInput!
+  admins: UserCreateManyInput
+  creators: UserCreateManyInput
+  users: UserCreateManyWithoutTeamsInput
+  checkLysts: CheckLystCreateManyWithoutTeamsInput
+  templateLysts: TemplateLystCreateManyWithoutTeamsInput
+  activityLogs: ActivityCreateManyInput
+}
+
+input TeamCreateManyWithoutCheckLystsInput {
+  create: [TeamCreateWithoutCheckLystsInput!]
+  connect: [TeamWhereUniqueInput!]
+}
+
+input TeamCreateManyWithoutTemplateLystsInput {
+  create: [TeamCreateWithoutTemplateLystsInput!]
+  connect: [TeamWhereUniqueInput!]
+}
+
+input TeamCreateManyWithoutUsersInput {
+  create: [TeamCreateWithoutUsersInput!]
+  connect: [TeamWhereUniqueInput!]
+}
+
+input TeamCreateWithoutCheckLystsInput {
+  name: String!
+  logo: String
+  itemsCompleted: Int
+  owner: UserCreateOneInput!
+  admins: UserCreateManyInput
+  creators: UserCreateManyInput
+  users: UserCreateManyWithoutTeamsInput
+  templateLysts: TemplateLystCreateManyWithoutTeamsInput
+  activityLogs: ActivityCreateManyInput
+}
+
+input TeamCreateWithoutTemplateLystsInput {
+  name: String!
+  logo: String
+  itemsCompleted: Int
+  owner: UserCreateOneInput!
+  admins: UserCreateManyInput
+  creators: UserCreateManyInput
+  users: UserCreateManyWithoutTeamsInput
+  checkLysts: CheckLystCreateManyWithoutTeamsInput
+  activityLogs: ActivityCreateManyInput
+}
+
+input TeamCreateWithoutUsersInput {
+  name: String!
+  logo: String
+  itemsCompleted: Int
+  owner: UserCreateOneInput!
+  admins: UserCreateManyInput
+  creators: UserCreateManyInput
+  checkLysts: CheckLystCreateManyWithoutTeamsInput
+  templateLysts: TemplateLystCreateManyWithoutTeamsInput
+  activityLogs: ActivityCreateManyInput
+}
+
+"""An edge in a connection."""
+type TeamEdge {
+  """The item at the end of the edge."""
+  node: Team!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum TeamOrderByInput {
+  id_ASC
+  id_DESC
+  name_ASC
+  name_DESC
+  logo_ASC
+  logo_DESC
+  itemsCompleted_ASC
+  itemsCompleted_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
+}
+
+type TeamPreviousValues {
+  id: ID!
+  name: String!
+  logo: String
+  itemsCompleted: Int
+}
+
+type TeamSubscriptionPayload {
+  mutation: MutationType!
+  node: Team
+  updatedFields: [String!]
+  previousValues: TeamPreviousValues
+}
+
+input TeamSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [TeamSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [TeamSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [TeamSubscriptionWhereInput!]
+
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: TeamWhereInput
+}
+
+input TeamUpdateInput {
+  name: String
+  logo: String
+  itemsCompleted: Int
+  owner: UserUpdateOneInput
+  admins: UserUpdateManyInput
+  creators: UserUpdateManyInput
+  users: UserUpdateManyWithoutTeamsInput
+  checkLysts: CheckLystUpdateManyWithoutTeamsInput
+  templateLysts: TemplateLystUpdateManyWithoutTeamsInput
+  activityLogs: ActivityUpdateManyInput
+}
+
+input TeamUpdateManyWithoutCheckLystsInput {
+  create: [TeamCreateWithoutCheckLystsInput!]
+  connect: [TeamWhereUniqueInput!]
+  disconnect: [TeamWhereUniqueInput!]
+  delete: [TeamWhereUniqueInput!]
+  update: [TeamUpdateWithWhereUniqueWithoutCheckLystsInput!]
+  upsert: [TeamUpsertWithWhereUniqueWithoutCheckLystsInput!]
+}
+
+input TeamUpdateManyWithoutTemplateLystsInput {
+  create: [TeamCreateWithoutTemplateLystsInput!]
+  connect: [TeamWhereUniqueInput!]
+  disconnect: [TeamWhereUniqueInput!]
+  delete: [TeamWhereUniqueInput!]
+  update: [TeamUpdateWithWhereUniqueWithoutTemplateLystsInput!]
+  upsert: [TeamUpsertWithWhereUniqueWithoutTemplateLystsInput!]
+}
+
+input TeamUpdateManyWithoutUsersInput {
+  create: [TeamCreateWithoutUsersInput!]
+  connect: [TeamWhereUniqueInput!]
+  disconnect: [TeamWhereUniqueInput!]
+  delete: [TeamWhereUniqueInput!]
+  update: [TeamUpdateWithWhereUniqueWithoutUsersInput!]
+  upsert: [TeamUpsertWithWhereUniqueWithoutUsersInput!]
+}
+
+input TeamUpdateWithoutCheckLystsDataInput {
+  name: String
+  logo: String
+  itemsCompleted: Int
+  owner: UserUpdateOneInput
+  admins: UserUpdateManyInput
+  creators: UserUpdateManyInput
+  users: UserUpdateManyWithoutTeamsInput
+  templateLysts: TemplateLystUpdateManyWithoutTeamsInput
+  activityLogs: ActivityUpdateManyInput
+}
+
+input TeamUpdateWithoutTemplateLystsDataInput {
+  name: String
+  logo: String
+  itemsCompleted: Int
+  owner: UserUpdateOneInput
+  admins: UserUpdateManyInput
+  creators: UserUpdateManyInput
+  users: UserUpdateManyWithoutTeamsInput
+  checkLysts: CheckLystUpdateManyWithoutTeamsInput
+  activityLogs: ActivityUpdateManyInput
+}
+
+input TeamUpdateWithoutUsersDataInput {
+  name: String
+  logo: String
+  itemsCompleted: Int
+  owner: UserUpdateOneInput
+  admins: UserUpdateManyInput
+  creators: UserUpdateManyInput
+  checkLysts: CheckLystUpdateManyWithoutTeamsInput
+  templateLysts: TemplateLystUpdateManyWithoutTeamsInput
+  activityLogs: ActivityUpdateManyInput
+}
+
+input TeamUpdateWithWhereUniqueWithoutCheckLystsInput {
+  where: TeamWhereUniqueInput!
+  data: TeamUpdateWithoutCheckLystsDataInput!
+}
+
+input TeamUpdateWithWhereUniqueWithoutTemplateLystsInput {
+  where: TeamWhereUniqueInput!
+  data: TeamUpdateWithoutTemplateLystsDataInput!
+}
+
+input TeamUpdateWithWhereUniqueWithoutUsersInput {
+  where: TeamWhereUniqueInput!
+  data: TeamUpdateWithoutUsersDataInput!
+}
+
+input TeamUpsertWithWhereUniqueWithoutCheckLystsInput {
+  where: TeamWhereUniqueInput!
+  update: TeamUpdateWithoutCheckLystsDataInput!
+  create: TeamCreateWithoutCheckLystsInput!
+}
+
+input TeamUpsertWithWhereUniqueWithoutTemplateLystsInput {
+  where: TeamWhereUniqueInput!
+  update: TeamUpdateWithoutTemplateLystsDataInput!
+  create: TeamCreateWithoutTemplateLystsInput!
+}
+
+input TeamUpsertWithWhereUniqueWithoutUsersInput {
+  where: TeamWhereUniqueInput!
+  update: TeamUpdateWithoutUsersDataInput!
+  create: TeamCreateWithoutUsersInput!
+}
+
+input TeamWhereInput {
+  """Logical AND on all given filters."""
+  AND: [TeamWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [TeamWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [TeamWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  name: String
+
+  """All values that are not equal to given value."""
+  name_not: String
+
+  """All values that are contained in given list."""
+  name_in: [String!]
+
+  """All values that are not contained in given list."""
+  name_not_in: [String!]
+
+  """All values less than the given value."""
+  name_lt: String
+
+  """All values less than or equal the given value."""
+  name_lte: String
+
+  """All values greater than the given value."""
+  name_gt: String
+
+  """All values greater than or equal the given value."""
+  name_gte: String
+
+  """All values containing the given string."""
+  name_contains: String
+
+  """All values not containing the given string."""
+  name_not_contains: String
+
+  """All values starting with the given string."""
+  name_starts_with: String
+
+  """All values not starting with the given string."""
+  name_not_starts_with: String
+
+  """All values ending with the given string."""
+  name_ends_with: String
+
+  """All values not ending with the given string."""
+  name_not_ends_with: String
+  logo: String
+
+  """All values that are not equal to given value."""
+  logo_not: String
+
+  """All values that are contained in given list."""
+  logo_in: [String!]
+
+  """All values that are not contained in given list."""
+  logo_not_in: [String!]
+
+  """All values less than the given value."""
+  logo_lt: String
+
+  """All values less than or equal the given value."""
+  logo_lte: String
+
+  """All values greater than the given value."""
+  logo_gt: String
+
+  """All values greater than or equal the given value."""
+  logo_gte: String
+
+  """All values containing the given string."""
+  logo_contains: String
+
+  """All values not containing the given string."""
+  logo_not_contains: String
+
+  """All values starting with the given string."""
+  logo_starts_with: String
+
+  """All values not starting with the given string."""
+  logo_not_starts_with: String
+
+  """All values ending with the given string."""
+  logo_ends_with: String
+
+  """All values not ending with the given string."""
+  logo_not_ends_with: String
+  itemsCompleted: Int
+
+  """All values that are not equal to given value."""
+  itemsCompleted_not: Int
+
+  """All values that are contained in given list."""
+  itemsCompleted_in: [Int!]
+
+  """All values that are not contained in given list."""
+  itemsCompleted_not_in: [Int!]
+
+  """All values less than the given value."""
+  itemsCompleted_lt: Int
+
+  """All values less than or equal the given value."""
+  itemsCompleted_lte: Int
+
+  """All values greater than the given value."""
+  itemsCompleted_gt: Int
+
+  """All values greater than or equal the given value."""
+  itemsCompleted_gte: Int
+  owner: UserWhereInput
+  admins_every: UserWhereInput
+  admins_some: UserWhereInput
+  admins_none: UserWhereInput
+  creators_every: UserWhereInput
+  creators_some: UserWhereInput
+  creators_none: UserWhereInput
+  users_every: UserWhereInput
+  users_some: UserWhereInput
+  users_none: UserWhereInput
+  checkLysts_every: CheckLystWhereInput
+  checkLysts_some: CheckLystWhereInput
+  checkLysts_none: CheckLystWhereInput
+  templateLysts_every: TemplateLystWhereInput
+  templateLysts_some: TemplateLystWhereInput
+  templateLysts_none: TemplateLystWhereInput
+  activityLogs_every: ActivityWhereInput
+  activityLogs_some: ActivityWhereInput
+  activityLogs_none: ActivityWhereInput
+}
+
+input TeamWhereUniqueInput {
+  id: ID
+}
+
+type TemplateLyst implements Node {
+  id: ID!
+  name: String!
+  items(where: ItemWhereInput, orderBy: ItemOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Item!]
+  users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
+  teams(where: TeamWhereInput, orderBy: TeamOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Team!]
+}
+
+"""A connection to a list of items."""
+type TemplateLystConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [TemplateLystEdge]!
+  aggregate: AggregateTemplateLyst!
+}
+
+input TemplateLystCreateInput {
+  name: String!
+  items: ItemCreateManyInput
+  users: UserCreateManyWithoutTemplateLystsInput
+  teams: TeamCreateManyWithoutTemplateLystsInput
+}
+
+input TemplateLystCreateManyWithoutTeamsInput {
+  create: [TemplateLystCreateWithoutTeamsInput!]
+  connect: [TemplateLystWhereUniqueInput!]
+}
+
+input TemplateLystCreateManyWithoutUsersInput {
+  create: [TemplateLystCreateWithoutUsersInput!]
+  connect: [TemplateLystWhereUniqueInput!]
+}
+
+input TemplateLystCreateWithoutTeamsInput {
+  name: String!
+  items: ItemCreateManyInput
+  users: UserCreateManyWithoutTemplateLystsInput
+}
+
+input TemplateLystCreateWithoutUsersInput {
+  name: String!
+  items: ItemCreateManyInput
+  teams: TeamCreateManyWithoutTemplateLystsInput
+}
+
+"""An edge in a connection."""
+type TemplateLystEdge {
+  """The item at the end of the edge."""
+  node: TemplateLyst!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum TemplateLystOrderByInput {
+  id_ASC
+  id_DESC
+  name_ASC
+  name_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
+}
+
+type TemplateLystPreviousValues {
+  id: ID!
+  name: String!
+}
+
+type TemplateLystSubscriptionPayload {
+  mutation: MutationType!
+  node: TemplateLyst
+  updatedFields: [String!]
+  previousValues: TemplateLystPreviousValues
+}
+
+input TemplateLystSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [TemplateLystSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [TemplateLystSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [TemplateLystSubscriptionWhereInput!]
+
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: TemplateLystWhereInput
+}
+
+input TemplateLystUpdateInput {
+  name: String
+  items: ItemUpdateManyInput
+  users: UserUpdateManyWithoutTemplateLystsInput
+  teams: TeamUpdateManyWithoutTemplateLystsInput
+}
+
+input TemplateLystUpdateManyWithoutTeamsInput {
+  create: [TemplateLystCreateWithoutTeamsInput!]
+  connect: [TemplateLystWhereUniqueInput!]
+  disconnect: [TemplateLystWhereUniqueInput!]
+  delete: [TemplateLystWhereUniqueInput!]
+  update: [TemplateLystUpdateWithWhereUniqueWithoutTeamsInput!]
+  upsert: [TemplateLystUpsertWithWhereUniqueWithoutTeamsInput!]
+}
+
+input TemplateLystUpdateManyWithoutUsersInput {
+  create: [TemplateLystCreateWithoutUsersInput!]
+  connect: [TemplateLystWhereUniqueInput!]
+  disconnect: [TemplateLystWhereUniqueInput!]
+  delete: [TemplateLystWhereUniqueInput!]
+  update: [TemplateLystUpdateWithWhereUniqueWithoutUsersInput!]
+  upsert: [TemplateLystUpsertWithWhereUniqueWithoutUsersInput!]
+}
+
+input TemplateLystUpdateWithoutTeamsDataInput {
+  name: String
+  items: ItemUpdateManyInput
+  users: UserUpdateManyWithoutTemplateLystsInput
+}
+
+input TemplateLystUpdateWithoutUsersDataInput {
+  name: String
+  items: ItemUpdateManyInput
+  teams: TeamUpdateManyWithoutTemplateLystsInput
+}
+
+input TemplateLystUpdateWithWhereUniqueWithoutTeamsInput {
+  where: TemplateLystWhereUniqueInput!
+  data: TemplateLystUpdateWithoutTeamsDataInput!
+}
+
+input TemplateLystUpdateWithWhereUniqueWithoutUsersInput {
+  where: TemplateLystWhereUniqueInput!
+  data: TemplateLystUpdateWithoutUsersDataInput!
+}
+
+input TemplateLystUpsertWithWhereUniqueWithoutTeamsInput {
+  where: TemplateLystWhereUniqueInput!
+  update: TemplateLystUpdateWithoutTeamsDataInput!
+  create: TemplateLystCreateWithoutTeamsInput!
+}
+
+input TemplateLystUpsertWithWhereUniqueWithoutUsersInput {
+  where: TemplateLystWhereUniqueInput!
+  update: TemplateLystUpdateWithoutUsersDataInput!
+  create: TemplateLystCreateWithoutUsersInput!
+}
+
+input TemplateLystWhereInput {
+  """Logical AND on all given filters."""
+  AND: [TemplateLystWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [TemplateLystWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [TemplateLystWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  name: String
+
+  """All values that are not equal to given value."""
+  name_not: String
+
+  """All values that are contained in given list."""
+  name_in: [String!]
+
+  """All values that are not contained in given list."""
+  name_not_in: [String!]
+
+  """All values less than the given value."""
+  name_lt: String
+
+  """All values less than or equal the given value."""
+  name_lte: String
+
+  """All values greater than the given value."""
+  name_gt: String
+
+  """All values greater than or equal the given value."""
+  name_gte: String
+
+  """All values containing the given string."""
+  name_contains: String
+
+  """All values not containing the given string."""
+  name_not_contains: String
+
+  """All values starting with the given string."""
+  name_starts_with: String
+
+  """All values not starting with the given string."""
+  name_not_starts_with: String
+
+  """All values ending with the given string."""
+  name_ends_with: String
+
+  """All values not ending with the given string."""
+  name_not_ends_with: String
+  items_every: ItemWhereInput
+  items_some: ItemWhereInput
+  items_none: ItemWhereInput
+  users_every: UserWhereInput
+  users_some: UserWhereInput
+  users_none: UserWhereInput
+  teams_every: TeamWhereInput
+  teams_some: TeamWhereInput
+  teams_none: TeamWhereInput
+}
+
+input TemplateLystWhereUniqueInput {
+  id: ID
+}
+
+type User implements Node {
+  id: ID!
+  name: String!
+  email: String!
+  avatar: String
+  checkLysts(where: CheckLystWhereInput, orderBy: CheckLystOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [CheckLyst!]
+  templateLysts(where: TemplateLystWhereInput, orderBy: TemplateLystOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [TemplateLyst!]
+  itemsCompleted: Int!
+  pro: Boolean!
+  teams(where: TeamWhereInput, orderBy: TeamOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Team!]
+}
+
+"""A connection to a list of items."""
+type UserConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [UserEdge]!
+  aggregate: AggregateUser!
+}
+
+input UserCreateInput {
+  name: String!
+  email: String!
+  avatar: String
+  itemsCompleted: Int
+  pro: Boolean
+  checkLysts: CheckLystCreateManyWithoutUsersInput
+  templateLysts: TemplateLystCreateManyWithoutUsersInput
+  teams: TeamCreateManyWithoutUsersInput
+}
+
+input UserCreateManyInput {
+  create: [UserCreateInput!]
+  connect: [UserWhereUniqueInput!]
+}
+
+input UserCreateManyWithoutCheckLystsInput {
+  create: [UserCreateWithoutCheckLystsInput!]
+  connect: [UserWhereUniqueInput!]
+}
+
+input UserCreateManyWithoutTeamsInput {
+  create: [UserCreateWithoutTeamsInput!]
+  connect: [UserWhereUniqueInput!]
+}
+
+input UserCreateManyWithoutTemplateLystsInput {
+  create: [UserCreateWithoutTemplateLystsInput!]
+  connect: [UserWhereUniqueInput!]
+}
+
+input UserCreateOneInput {
+  create: UserCreateInput
+  connect: UserWhereUniqueInput
+}
+
+input UserCreateWithoutCheckLystsInput {
+  name: String!
+  email: String!
+  avatar: String
+  itemsCompleted: Int
+  pro: Boolean
+  templateLysts: TemplateLystCreateManyWithoutUsersInput
+  teams: TeamCreateManyWithoutUsersInput
+}
+
+input UserCreateWithoutTeamsInput {
+  name: String!
+  email: String!
+  avatar: String
+  itemsCompleted: Int
+  pro: Boolean
+  checkLysts: CheckLystCreateManyWithoutUsersInput
+  templateLysts: TemplateLystCreateManyWithoutUsersInput
+}
+
+input UserCreateWithoutTemplateLystsInput {
+  name: String!
+  email: String!
+  avatar: String
+  itemsCompleted: Int
+  pro: Boolean
+  checkLysts: CheckLystCreateManyWithoutUsersInput
+  teams: TeamCreateManyWithoutUsersInput
+}
+
+"""An edge in a connection."""
+type UserEdge {
+  """The item at the end of the edge."""
+  node: User!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum UserOrderByInput {
+  id_ASC
+  id_DESC
+  name_ASC
+  name_DESC
+  email_ASC
+  email_DESC
+  avatar_ASC
+  avatar_DESC
+  itemsCompleted_ASC
+  itemsCompleted_DESC
+  pro_ASC
+  pro_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
+}
+
+type UserPreviousValues {
+  id: ID!
+  name: String!
+  email: String!
+  avatar: String
+  itemsCompleted: Int!
+  pro: Boolean!
+}
+
+type UserSubscriptionPayload {
+  mutation: MutationType!
+  node: User
+  updatedFields: [String!]
+  previousValues: UserPreviousValues
+}
+
+input UserSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [UserSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [UserSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [UserSubscriptionWhereInput!]
+
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: UserWhereInput
+}
+
+input UserUpdateDataInput {
+  name: String
+  email: String
+  avatar: String
+  itemsCompleted: Int
+  pro: Boolean
+  checkLysts: CheckLystUpdateManyWithoutUsersInput
+  templateLysts: TemplateLystUpdateManyWithoutUsersInput
+  teams: TeamUpdateManyWithoutUsersInput
+}
+
+input UserUpdateInput {
+  name: String
+  email: String
+  avatar: String
+  itemsCompleted: Int
+  pro: Boolean
+  checkLysts: CheckLystUpdateManyWithoutUsersInput
+  templateLysts: TemplateLystUpdateManyWithoutUsersInput
+  teams: TeamUpdateManyWithoutUsersInput
+}
+
+input UserUpdateManyInput {
+  create: [UserCreateInput!]
+  connect: [UserWhereUniqueInput!]
+  disconnect: [UserWhereUniqueInput!]
+  delete: [UserWhereUniqueInput!]
+  update: [UserUpdateWithWhereUniqueNestedInput!]
+  upsert: [UserUpsertWithWhereUniqueNestedInput!]
+}
+
+input UserUpdateManyWithoutCheckLystsInput {
+  create: [UserCreateWithoutCheckLystsInput!]
+  connect: [UserWhereUniqueInput!]
+  disconnect: [UserWhereUniqueInput!]
+  delete: [UserWhereUniqueInput!]
+  update: [UserUpdateWithWhereUniqueWithoutCheckLystsInput!]
+  upsert: [UserUpsertWithWhereUniqueWithoutCheckLystsInput!]
+}
+
+input UserUpdateManyWithoutTeamsInput {
+  create: [UserCreateWithoutTeamsInput!]
+  connect: [UserWhereUniqueInput!]
+  disconnect: [UserWhereUniqueInput!]
+  delete: [UserWhereUniqueInput!]
+  update: [UserUpdateWithWhereUniqueWithoutTeamsInput!]
+  upsert: [UserUpsertWithWhereUniqueWithoutTeamsInput!]
+}
+
+input UserUpdateManyWithoutTemplateLystsInput {
+  create: [UserCreateWithoutTemplateLystsInput!]
+  connect: [UserWhereUniqueInput!]
+  disconnect: [UserWhereUniqueInput!]
+  delete: [UserWhereUniqueInput!]
+  update: [UserUpdateWithWhereUniqueWithoutTemplateLystsInput!]
+  upsert: [UserUpsertWithWhereUniqueWithoutTemplateLystsInput!]
+}
+
+input UserUpdateOneInput {
+  create: UserCreateInput
+  connect: UserWhereUniqueInput
+  disconnect: Boolean
+  delete: Boolean
+  update: UserUpdateDataInput
+  upsert: UserUpsertNestedInput
+}
+
+input UserUpdateWithoutCheckLystsDataInput {
+  name: String
+  email: String
+  avatar: String
+  itemsCompleted: Int
+  pro: Boolean
+  templateLysts: TemplateLystUpdateManyWithoutUsersInput
+  teams: TeamUpdateManyWithoutUsersInput
+}
+
+input UserUpdateWithoutTeamsDataInput {
+  name: String
+  email: String
+  avatar: String
+  itemsCompleted: Int
+  pro: Boolean
+  checkLysts: CheckLystUpdateManyWithoutUsersInput
+  templateLysts: TemplateLystUpdateManyWithoutUsersInput
+}
+
+input UserUpdateWithoutTemplateLystsDataInput {
+  name: String
+  email: String
+  avatar: String
+  itemsCompleted: Int
+  pro: Boolean
+  checkLysts: CheckLystUpdateManyWithoutUsersInput
+  teams: TeamUpdateManyWithoutUsersInput
+}
+
+input UserUpdateWithWhereUniqueNestedInput {
+  where: UserWhereUniqueInput!
+  data: UserUpdateDataInput!
+}
+
+input UserUpdateWithWhereUniqueWithoutCheckLystsInput {
+  where: UserWhereUniqueInput!
+  data: UserUpdateWithoutCheckLystsDataInput!
+}
+
+input UserUpdateWithWhereUniqueWithoutTeamsInput {
+  where: UserWhereUniqueInput!
+  data: UserUpdateWithoutTeamsDataInput!
+}
+
+input UserUpdateWithWhereUniqueWithoutTemplateLystsInput {
+  where: UserWhereUniqueInput!
+  data: UserUpdateWithoutTemplateLystsDataInput!
+}
+
+input UserUpsertNestedInput {
+  update: UserUpdateDataInput!
+  create: UserCreateInput!
+}
+
+input UserUpsertWithWhereUniqueNestedInput {
+  where: UserWhereUniqueInput!
+  update: UserUpdateDataInput!
+  create: UserCreateInput!
+}
+
+input UserUpsertWithWhereUniqueWithoutCheckLystsInput {
+  where: UserWhereUniqueInput!
+  update: UserUpdateWithoutCheckLystsDataInput!
+  create: UserCreateWithoutCheckLystsInput!
+}
+
+input UserUpsertWithWhereUniqueWithoutTeamsInput {
+  where: UserWhereUniqueInput!
+  update: UserUpdateWithoutTeamsDataInput!
+  create: UserCreateWithoutTeamsInput!
+}
+
+input UserUpsertWithWhereUniqueWithoutTemplateLystsInput {
+  where: UserWhereUniqueInput!
+  update: UserUpdateWithoutTemplateLystsDataInput!
+  create: UserCreateWithoutTemplateLystsInput!
+}
+
+input UserWhereInput {
+  """Logical AND on all given filters."""
+  AND: [UserWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [UserWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [UserWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  name: String
+
+  """All values that are not equal to given value."""
+  name_not: String
+
+  """All values that are contained in given list."""
+  name_in: [String!]
+
+  """All values that are not contained in given list."""
+  name_not_in: [String!]
+
+  """All values less than the given value."""
+  name_lt: String
+
+  """All values less than or equal the given value."""
+  name_lte: String
+
+  """All values greater than the given value."""
+  name_gt: String
+
+  """All values greater than or equal the given value."""
+  name_gte: String
+
+  """All values containing the given string."""
+  name_contains: String
+
+  """All values not containing the given string."""
+  name_not_contains: String
+
+  """All values starting with the given string."""
+  name_starts_with: String
+
+  """All values not starting with the given string."""
+  name_not_starts_with: String
+
+  """All values ending with the given string."""
+  name_ends_with: String
+
+  """All values not ending with the given string."""
+  name_not_ends_with: String
+  email: String
+
+  """All values that are not equal to given value."""
+  email_not: String
+
+  """All values that are contained in given list."""
+  email_in: [String!]
+
+  """All values that are not contained in given list."""
+  email_not_in: [String!]
+
+  """All values less than the given value."""
+  email_lt: String
+
+  """All values less than or equal the given value."""
+  email_lte: String
+
+  """All values greater than the given value."""
+  email_gt: String
+
+  """All values greater than or equal the given value."""
+  email_gte: String
+
+  """All values containing the given string."""
+  email_contains: String
+
+  """All values not containing the given string."""
+  email_not_contains: String
+
+  """All values starting with the given string."""
+  email_starts_with: String
+
+  """All values not starting with the given string."""
+  email_not_starts_with: String
+
+  """All values ending with the given string."""
+  email_ends_with: String
+
+  """All values not ending with the given string."""
+  email_not_ends_with: String
+  avatar: String
+
+  """All values that are not equal to given value."""
+  avatar_not: String
+
+  """All values that are contained in given list."""
+  avatar_in: [String!]
+
+  """All values that are not contained in given list."""
+  avatar_not_in: [String!]
+
+  """All values less than the given value."""
+  avatar_lt: String
+
+  """All values less than or equal the given value."""
+  avatar_lte: String
+
+  """All values greater than the given value."""
+  avatar_gt: String
+
+  """All values greater than or equal the given value."""
+  avatar_gte: String
+
+  """All values containing the given string."""
+  avatar_contains: String
+
+  """All values not containing the given string."""
+  avatar_not_contains: String
+
+  """All values starting with the given string."""
+  avatar_starts_with: String
+
+  """All values not starting with the given string."""
+  avatar_not_starts_with: String
+
+  """All values ending with the given string."""
+  avatar_ends_with: String
+
+  """All values not ending with the given string."""
+  avatar_not_ends_with: String
+  itemsCompleted: Int
+
+  """All values that are not equal to given value."""
+  itemsCompleted_not: Int
+
+  """All values that are contained in given list."""
+  itemsCompleted_in: [Int!]
+
+  """All values that are not contained in given list."""
+  itemsCompleted_not_in: [Int!]
+
+  """All values less than the given value."""
+  itemsCompleted_lt: Int
+
+  """All values less than or equal the given value."""
+  itemsCompleted_lte: Int
+
+  """All values greater than the given value."""
+  itemsCompleted_gt: Int
+
+  """All values greater than or equal the given value."""
+  itemsCompleted_gte: Int
+  pro: Boolean
+
+  """All values that are not equal to given value."""
+  pro_not: Boolean
+  checkLysts_every: CheckLystWhereInput
+  checkLysts_some: CheckLystWhereInput
+  checkLysts_none: CheckLystWhereInput
+  templateLysts_every: TemplateLystWhereInput
+  templateLysts_some: TemplateLystWhereInput
+  templateLysts_none: TemplateLystWhereInput
+  teams_every: TeamWhereInput
+  teams_some: TeamWhereInput
+  teams_none: TeamWhereInput
+  _MagicalBackRelation_ItemToUser_every: ItemWhereInput
+  _MagicalBackRelation_ItemToUser_some: ItemWhereInput
+  _MagicalBackRelation_ItemToUser_none: ItemWhereInput
+  _MagicalBackRelation_TeamAdmins_every: TeamWhereInput
+  _MagicalBackRelation_TeamAdmins_some: TeamWhereInput
+  _MagicalBackRelation_TeamAdmins_none: TeamWhereInput
+  _MagicalBackRelation_ChecklystCreator_every: CheckLystWhereInput
+  _MagicalBackRelation_ChecklystCreator_some: CheckLystWhereInput
+  _MagicalBackRelation_ChecklystCreator_none: CheckLystWhereInput
+  _MagicalBackRelation_TeamCreators_every: TeamWhereInput
+  _MagicalBackRelation_TeamCreators_some: TeamWhereInput
+  _MagicalBackRelation_TeamCreators_none: TeamWhereInput
+  _MagicalBackRelation_TeamOwner_every: TeamWhereInput
+  _MagicalBackRelation_TeamOwner_some: TeamWhereInput
+  _MagicalBackRelation_TeamOwner_none: TeamWhereInput
+  _MagicalBackRelation_LabelToUser_every: LabelWhereInput
+  _MagicalBackRelation_LabelToUser_some: LabelWhereInput
+  _MagicalBackRelation_LabelToUser_none: LabelWhereInput
+  _MagicalBackRelation_ActivityToUser_every: ActivityWhereInput
+  _MagicalBackRelation_ActivityToUser_some: ActivityWhereInput
+  _MagicalBackRelation_ActivityToUser_none: ActivityWhereInput
+}
+
+input UserWhereUniqueInput {
+  id: ID
+  email: String
+}

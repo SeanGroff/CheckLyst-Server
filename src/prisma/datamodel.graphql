@@ -1,0 +1,81 @@
+type Activity {
+  id: ID! @unique
+  type: ActivityType!
+  user: User!
+  checkLyst: CheckLyst!
+}
+
+type CheckLyst {
+  id: ID! @unique
+  name: String!
+  items: [Item!]!
+  createdBy: User! @relation(name: "ChecklystCreator")
+  users: [User!]! @relation(name: "UserChecklysts")
+  activityLog: [Activity!]!
+  label: Label
+  teams: [Team!]! @relation(name: "TeamChecklysts")
+}
+
+type Item {
+  id: ID! @unique
+  name: String!
+  completed: Boolean! @default(value: "false")
+  completedBy: User
+}
+
+type Label {
+  id: ID! @unique
+  user: User!
+  checkLysts: [CheckLyst!]!
+  name: String!
+  color: Color!
+}
+
+type TemplateLyst {
+  id: ID! @unique
+  name: String!
+  items: [Item!]!
+  users: [User!]! @relation(name: "UserTemplates")
+  teams: [Team!]! @relation(name: "TeamTemplates")
+}
+
+type Team {
+  id: ID! @unique
+  name: String!
+  owner: User! @relation(name: "TeamOwner")
+  admins: [User!]! @relation(name: "TeamAdmins")
+  creators: [User!]! @relation(name: "TeamCreators")
+  users: [User!]! @relation(name: "TeamOfUsers")
+  logo: String @default(value: "placeholder.jpg")
+  checkLysts: [CheckLyst!]! @relation(name: "TeamChecklysts")
+  templateLysts: [TemplateLyst!]! @relation(name: "TeamTemplates")
+  itemsCompleted: Int @default(value: "0")
+  activityLogs: [Activity!]!
+}
+
+type User {
+  id: ID! @unique
+  name: String!
+  email: String! @unique
+  avatar: String @default(value: "placeholder.jpg")
+  checkLysts: [CheckLyst!]! @relation(name: "UserChecklysts")
+  templateLysts: [TemplateLyst!]! @relation(name: "UserTemplates")
+  itemsCompleted: Int! @default(value: "0")
+  pro: Boolean! @default(value: "false")
+  teams: [Team!]! @relation(name: "TeamOfUsers")
+}
+
+enum Color {
+  BLUE
+  GREEN
+  PINK
+  ORANGE
+  PURPLE
+}
+
+enum ActivityType {
+  CREATE
+  EDIT
+  DELETE
+  COMPLETE
+}

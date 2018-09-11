@@ -1,0 +1,2 @@
+endpoint: https://checklyst-server.herokuapp.com/CheckLyst-Server/dev
+datamodel: datamodel.graphql
