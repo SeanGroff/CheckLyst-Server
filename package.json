@@ -24,22 +24,20 @@
   },
   "homepage": "https://github.com/SeanGroff/CheckLyst-Server#readme",
   "dependencies": {
-    "apollo-server-express": "^2.0.6",
     "body-parser": "^1.18.3",
-    "connect-mongo": "^2.0.1",
     "cors": "^2.8.4",
     "dotenv": "^6.0.0",
     "esm": "^3.0.82",
     "express": "^4.16.3",
     "express-session": "^1.15.6",
-    "graphql": "^14.0.0",
+    "graphql": "^14.0.2",
+    "graphql-yoga": "^1.16.2",
     "helmet": "^3.13.0",
     "jsonwebtoken": "^8.3.0",
-    "mongoose": "^5.2.13",
-    "mongoose-mongodb-errors": "^0.0.2",
-    "morgan": "^1.9.0",
+    "morgan": "^1.9.1",
     "passport": "^0.4.0",
-    "passport-google-oauth20": "^1.0.0"
+    "passport-google-oauth20": "^1.0.0",
+    "prisma-lib": "^0.1.44"
   },
   "devDependencies": {
     "babel-eslint": "^9.0.0",
@@ -50,9 +48,10 @@
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-node": "^7.0.1",
     "eslint-plugin-prettier": "^2.6.2",
-    "eslint-plugin-promise": "^4.0.0",
+    "eslint-plugin-promise": "^4.0.1",
     "eslint-plugin-security": "^1.4.0",
     "eslint-plugin-standard": "^4.0.0",
+    "graphql-cli": "^2.16.7",
     "nodemon": "^1.18.4",
     "prettier": "^1.14.2"
   }
