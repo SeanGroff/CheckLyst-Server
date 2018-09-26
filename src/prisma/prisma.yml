@@ -1,2 +1,5 @@
-endpoint: https://checklyst-server.herokuapp.com/CheckLyst-Server/dev
-datamodel: datamodel.graphql
+endpoint: http://localhost:4466
+datamodel: datamodel.prisma
+generate:
+  - generator: javascript-client
+    output: ../generated

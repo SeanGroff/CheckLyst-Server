@@ -1,19 +1,13 @@
-# source: https://checklyst-server.herokuapp.com/CheckLyst-Server/dev
-# timestamp: Tue Sep 11 2018 07:44:08 GMT-0500 (Central Daylight Time)
-
-type Activity implements Node {
+module.exports = {
+        typeDefs: `type Activity {
   id: ID!
   type: ActivityType!
-  user(where: UserWhereInput): User!
-  checkLyst(where: CheckLystWhereInput): CheckLyst!
+  user: User!
+  checkLyst: CheckLyst!
 }
 
-"""A connection to a list of items."""
 type ActivityConnection {
-  """Information to aid in pagination."""
   pageInfo: PageInfo!
-
-  """A list of edges."""
   edges: [ActivityEdge]!
   aggregate: AggregateActivity!
 }
@@ -39,12 +33,8 @@ input ActivityCreateWithoutCheckLystInput {
   user: UserCreateOneInput!
 }
 
-"""An edge in a connection."""
 type ActivityEdge {
-  """The item at the end of the edge."""
   node: Activity!
-
-  """A cursor for use in pagination."""
   cursor: String!
 }
 
@@ -53,10 +43,10 @@ enum ActivityOrderByInput {
   id_DESC
   type_ASC
   type_DESC
-  updatedAt_ASC
-  updatedAt_DESC
   createdAt_ASC
   createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
 }
 
 type ActivityPreviousValues {
@@ -72,35 +62,14 @@ type ActivitySubscriptionPayload {
 }
 
 input ActivitySubscriptionWhereInput {
-  """Logical AND on all given filters."""
-  AND: [ActivitySubscriptionWhereInput!]
-
-  """Logical OR on all given filters."""
-  OR: [ActivitySubscriptionWhereInput!]
-
-  """Logical NOT on all given filters combined by AND."""
-  NOT: [ActivitySubscriptionWhereInput!]
-
-  """
-  The subscription event gets dispatched when it's listed in mutation_in
-  """
   mutation_in: [MutationType!]
-
-  """
-  The subscription event gets only dispatched when one of the updated fields names is included in this list
-  """
   updatedFields_contains: String
-
-  """
-  The subscription event gets only dispatched when all of the field names included in this list have been updated
-  """
   updatedFields_contains_every: [String!]
-
-  """
-  The subscription event gets only dispatched when some of the field names included in this list have been updated
-  """
   updatedFields_contains_some: [String!]
   node: ActivityWhereInput
+  AND: [ActivitySubscriptionWhereInput!]
+  OR: [ActivitySubscriptionWhereInput!]
+  NOT: [ActivitySubscriptionWhereInput!]
 }
 
 enum ActivityType {
@@ -124,18 +93,18 @@ input ActivityUpdateInput {
 
 input ActivityUpdateManyInput {
   create: [ActivityCreateInput!]
+  delete: [ActivityWhereUniqueInput!]
   connect: [ActivityWhereUniqueInput!]
   disconnect: [ActivityWhereUniqueInput!]
-  delete: [ActivityWhereUniqueInput!]
   update: [ActivityUpdateWithWhereUniqueNestedInput!]
   upsert: [ActivityUpsertWithWhereUniqueNestedInput!]
 }
 
 input ActivityUpdateManyWithoutCheckLystInput {
   create: [ActivityCreateWithoutCheckLystInput!]
+  delete: [ActivityWhereUniqueInput!]
   connect: [ActivityWhereUniqueInput!]
   disconnect: [ActivityWhereUniqueInput!]
-  delete: [ActivityWhereUniqueInput!]
   update: [ActivityUpdateWithWhereUniqueWithoutCheckLystInput!]
   upsert: [ActivityUpsertWithWhereUniqueWithoutCheckLystInput!]
 }
@@ -168,69 +137,29 @@ input ActivityUpsertWithWhereUniqueWithoutCheckLystInput {
 }
 
 input ActivityWhereInput {
-  """Logical AND on all given filters."""
-  AND: [ActivityWhereInput!]
-
-  """Logical OR on all given filters."""
-  OR: [ActivityWhereInput!]
-
-  """Logical NOT on all given filters combined by AND."""
-  NOT: [ActivityWhereInput!]
   id: ID
-
-  """All values that are not equal to given value."""
   id_not: ID
-
-  """All values that are contained in given list."""
   id_in: [ID!]
-
-  """All values that are not contained in given list."""
   id_not_in: [ID!]
-
-  """All values less than the given value."""
   id_lt: ID
-
-  """All values less than or equal the given value."""
   id_lte: ID
-
-  """All values greater than the given value."""
   id_gt: ID
-
-  """All values greater than or equal the given value."""
   id_gte: ID
-
-  """All values containing the given string."""
   id_contains: ID
-
-  """All values not containing the given string."""
   id_not_contains: ID
-
-  """All values starting with the given string."""
   id_starts_with: ID
-
-  """All values not starting with the given string."""
   id_not_starts_with: ID
-
-  """All values ending with the given string."""
   id_ends_with: ID
-
-  """All values not ending with the given string."""
   id_not_ends_with: ID
   type: ActivityType
-
-  """All values that are not equal to given value."""
   type_not: ActivityType
-
-  """All values that are contained in given list."""
   type_in: [ActivityType!]
-
-  """All values that are not contained in given list."""
   type_not_in: [ActivityType!]
   user: UserWhereInput
   checkLyst: CheckLystWhereInput
-  _MagicalBackRelation_ActivityToTeam_every: TeamWhereInput
-  _MagicalBackRelation_ActivityToTeam_some: TeamWhereInput
-  _MagicalBackRelation_ActivityToTeam_none: TeamWhereInput
+  AND: [ActivityWhereInput!]
+  OR: [ActivityWhereInput!]
+  NOT: [ActivityWhereInput!]
 }
 
 input ActivityWhereUniqueInput {
@@ -266,27 +195,22 @@ type AggregateUser {
 }
 
 type BatchPayload {
-  """The number of nodes that have been affected by the Batch operation."""
   count: Long!
 }
 
-type CheckLyst implements Node {
+type CheckLyst {
   id: ID!
   name: String!
   items(where: ItemWhereInput, orderBy: ItemOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Item!]
-  createdBy(where: UserWhereInput): User!
+  createdBy: User!
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
   activityLog(where: ActivityWhereInput, orderBy: ActivityOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Activity!]
-  label(where: LabelWhereInput): Label
+  label: Label
   teams(where: TeamWhereInput, orderBy: TeamOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Team!]
 }
 
-"""A connection to a list of items."""
 type CheckLystConnection {
-  """Information to aid in pagination."""
   pageInfo: PageInfo!
-
-  """A list of edges."""
   edges: [CheckLystEdge]!
   aggregate: AggregateCheckLyst!
 }
@@ -357,12 +281,8 @@ input CheckLystCreateWithoutUsersInput {
   teams: TeamCreateManyWithoutCheckLystsInput
 }
 
-"""An edge in a connection."""
 type CheckLystEdge {
-  """The item at the end of the edge."""
   node: CheckLyst!
-
-  """A cursor for use in pagination."""
   cursor: String!
 }
 
@@ -371,10 +291,10 @@ enum CheckLystOrderByInput {
   id_DESC
   name_ASC
   name_DESC
-  updatedAt_ASC
-  updatedAt_DESC
   createdAt_ASC
   createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
 }
 
 type CheckLystPreviousValues {
@@ -390,35 +310,14 @@ type CheckLystSubscriptionPayload {
 }
 
 input CheckLystSubscriptionWhereInput {
-  """Logical AND on all given filters."""
-  AND: [CheckLystSubscriptionWhereInput!]
-
-  """Logical OR on all given filters."""
-  OR: [CheckLystSubscriptionWhereInput!]
-
-  """Logical NOT on all given filters combined by AND."""
-  NOT: [CheckLystSubscriptionWhereInput!]
-
-  """
-  The subscription event gets dispatched when it's listed in mutation_in
-  """
   mutation_in: [MutationType!]
-
-  """
-  The subscription event gets only dispatched when one of the updated fields names is included in this list
-  """
   updatedFields_contains: String
-
-  """
-  The subscription event gets only dispatched when all of the field names included in this list have been updated
-  """
   updatedFields_contains_every: [String!]
-
-  """
-  The subscription event gets only dispatched when some of the field names included in this list have been updated
-  """
   updatedFields_contains_some: [String!]
   node: CheckLystWhereInput
+  AND: [CheckLystSubscriptionWhereInput!]
+  OR: [CheckLystSubscriptionWhereInput!]
+  NOT: [CheckLystSubscriptionWhereInput!]
 }
 
 input CheckLystUpdateInput {
@@ -433,37 +332,37 @@ input CheckLystUpdateInput {
 
 input CheckLystUpdateManyWithoutLabelInput {
   create: [CheckLystCreateWithoutLabelInput!]
+  delete: [CheckLystWhereUniqueInput!]
   connect: [CheckLystWhereUniqueInput!]
   disconnect: [CheckLystWhereUniqueInput!]
-  delete: [CheckLystWhereUniqueInput!]
   update: [CheckLystUpdateWithWhereUniqueWithoutLabelInput!]
   upsert: [CheckLystUpsertWithWhereUniqueWithoutLabelInput!]
 }
 
 input CheckLystUpdateManyWithoutTeamsInput {
   create: [CheckLystCreateWithoutTeamsInput!]
+  delete: [CheckLystWhereUniqueInput!]
   connect: [CheckLystWhereUniqueInput!]
   disconnect: [CheckLystWhereUniqueInput!]
-  delete: [CheckLystWhereUniqueInput!]
   update: [CheckLystUpdateWithWhereUniqueWithoutTeamsInput!]
   upsert: [CheckLystUpsertWithWhereUniqueWithoutTeamsInput!]
 }
 
 input CheckLystUpdateManyWithoutUsersInput {
   create: [CheckLystCreateWithoutUsersInput!]
+  delete: [CheckLystWhereUniqueInput!]
   connect: [CheckLystWhereUniqueInput!]
   disconnect: [CheckLystWhereUniqueInput!]
-  delete: [CheckLystWhereUniqueInput!]
   update: [CheckLystUpdateWithWhereUniqueWithoutUsersInput!]
   upsert: [CheckLystUpsertWithWhereUniqueWithoutUsersInput!]
 }
 
 input CheckLystUpdateOneWithoutActivityLogInput {
   create: CheckLystCreateWithoutActivityLogInput
-  connect: CheckLystWhereUniqueInput
-  delete: Boolean
   update: CheckLystUpdateWithoutActivityLogDataInput
   upsert: CheckLystUpsertWithoutActivityLogInput
+  delete: Boolean
+  connect: CheckLystWhereUniqueInput
 }
 
 input CheckLystUpdateWithoutActivityLogDataInput {
@@ -541,93 +440,33 @@ input CheckLystUpsertWithWhereUniqueWithoutUsersInput {
 }
 
 input CheckLystWhereInput {
-  """Logical AND on all given filters."""
-  AND: [CheckLystWhereInput!]
-
-  """Logical OR on all given filters."""
-  OR: [CheckLystWhereInput!]
-
-  """Logical NOT on all given filters combined by AND."""
-  NOT: [CheckLystWhereInput!]
   id: ID
-
-  """All values that are not equal to given value."""
   id_not: ID
-
-  """All values that are contained in given list."""
   id_in: [ID!]
-
-  """All values that are not contained in given list."""
   id_not_in: [ID!]
-
-  """All values less than the given value."""
   id_lt: ID
-
-  """All values less than or equal the given value."""
   id_lte: ID
-
-  """All values greater than the given value."""
   id_gt: ID
-
-  """All values greater than or equal the given value."""
   id_gte: ID
-
-  """All values containing the given string."""
   id_contains: ID
-
-  """All values not containing the given string."""
   id_not_contains: ID
-
-  """All values starting with the given string."""
   id_starts_with: ID
-
-  """All values not starting with the given string."""
   id_not_starts_with: ID
-
-  """All values ending with the given string."""
   id_ends_with: ID
-
-  """All values not ending with the given string."""
   id_not_ends_with: ID
   name: String
-
-  """All values that are not equal to given value."""
   name_not: String
-
-  """All values that are contained in given list."""
   name_in: [String!]
-
-  """All values that are not contained in given list."""
   name_not_in: [String!]
-
-  """All values less than the given value."""
   name_lt: String
-
-  """All values less than or equal the given value."""
   name_lte: String
-
-  """All values greater than the given value."""
   name_gt: String
-
-  """All values greater than or equal the given value."""
   name_gte: String
-
-  """All values containing the given string."""
   name_contains: String
-
-  """All values not containing the given string."""
   name_not_contains: String
-
-  """All values starting with the given string."""
   name_starts_with: String
-
-  """All values not starting with the given string."""
   name_not_starts_with: String
-
-  """All values ending with the given string."""
   name_ends_with: String
-
-  """All values not ending with the given string."""
   name_not_ends_with: String
   items_every: ItemWhereInput
   items_some: ItemWhereInput
@@ -643,6 +482,9 @@ input CheckLystWhereInput {
   teams_every: TeamWhereInput
   teams_some: TeamWhereInput
   teams_none: TeamWhereInput
+  AND: [CheckLystWhereInput!]
+  OR: [CheckLystWhereInput!]
+  NOT: [CheckLystWhereInput!]
 }
 
 input CheckLystWhereUniqueInput {
@@ -657,19 +499,15 @@ enum Color {
   PURPLE
 }
 
-type Item implements Node {
+type Item {
   id: ID!
   name: String!
   completed: Boolean!
-  completedBy(where: UserWhereInput): User
+  completedBy: User
 }
 
-"""A connection to a list of items."""
 type ItemConnection {
-  """Information to aid in pagination."""
   pageInfo: PageInfo!
-
-  """A list of edges."""
   edges: [ItemEdge]!
   aggregate: AggregateItem!
 }
@@ -685,12 +523,8 @@ input ItemCreateManyInput {
   connect: [ItemWhereUniqueInput!]
 }
 
-"""An edge in a connection."""
 type ItemEdge {
-  """The item at the end of the edge."""
   node: Item!
-
-  """A cursor for use in pagination."""
   cursor: String!
 }
 
@@ -701,10 +535,10 @@ enum ItemOrderByInput {
   name_DESC
   completed_ASC
   completed_DESC
-  updatedAt_ASC
-  updatedAt_DESC
   createdAt_ASC
   createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
 }
 
 type ItemPreviousValues {
@@ -721,35 +555,14 @@ type ItemSubscriptionPayload {
 }
 
 input ItemSubscriptionWhereInput {
-  """Logical AND on all given filters."""
-  AND: [ItemSubscriptionWhereInput!]
-
-  """Logical OR on all given filters."""
-  OR: [ItemSubscriptionWhereInput!]
-
-  """Logical NOT on all given filters combined by AND."""
-  NOT: [ItemSubscriptionWhereInput!]
-
-  """
-  The subscription event gets dispatched when it's listed in mutation_in
-  """
   mutation_in: [MutationType!]
-
-  """
-  The subscription event gets only dispatched when one of the updated fields names is included in this list
-  """
   updatedFields_contains: String
-
-  """
-  The subscription event gets only dispatched when all of the field names included in this list have been updated
-  """
   updatedFields_contains_every: [String!]
-
-  """
-  The subscription event gets only dispatched when some of the field names included in this list have been updated
-  """
   updatedFields_contains_some: [String!]
   node: ItemWhereInput
+  AND: [ItemSubscriptionWhereInput!]
+  OR: [ItemSubscriptionWhereInput!]
+  NOT: [ItemSubscriptionWhereInput!]
 }
 
 input ItemUpdateDataInput {
@@ -766,9 +579,9 @@ input ItemUpdateInput {
 
 input ItemUpdateManyInput {
   create: [ItemCreateInput!]
+  delete: [ItemWhereUniqueInput!]
   connect: [ItemWhereUniqueInput!]
   disconnect: [ItemWhereUniqueInput!]
-  delete: [ItemWhereUniqueInput!]
   update: [ItemUpdateWithWhereUniqueNestedInput!]
   upsert: [ItemUpsertWithWhereUniqueNestedInput!]
 }
@@ -785,134 +598,65 @@ input ItemUpsertWithWhereUniqueNestedInput {
 }
 
 input ItemWhereInput {
-  """Logical AND on all given filters."""
-  AND: [ItemWhereInput!]
-
-  """Logical OR on all given filters."""
-  OR: [ItemWhereInput!]
-
-  """Logical NOT on all given filters combined by AND."""
-  NOT: [ItemWhereInput!]
   id: ID
-
-  """All values that are not equal to given value."""
   id_not: ID
-
-  """All values that are contained in given list."""
   id_in: [ID!]
-
-  """All values that are not contained in given list."""
   id_not_in: [ID!]
-
-  """All values less than the given value."""
   id_lt: ID
-
-  """All values less than or equal the given value."""
   id_lte: ID
-
-  """All values greater than the given value."""
   id_gt: ID
-
-  """All values greater than or equal the given value."""
   id_gte: ID
-
-  """All values containing the given string."""
   id_contains: ID
-
-  """All values not containing the given string."""
   id_not_contains: ID
-
-  """All values starting with the given string."""
   id_starts_with: ID
-
-  """All values not starting with the given string."""
   id_not_starts_with: ID
-
-  """All values ending with the given string."""
   id_ends_with: ID
-
-  """All values not ending with the given string."""
   id_not_ends_with: ID
   name: String
-
-  """All values that are not equal to given value."""
   name_not: String
-
-  """All values that are contained in given list."""
   name_in: [String!]
-
-  """All values that are not contained in given list."""
   name_not_in: [String!]
-
-  """All values less than the given value."""
   name_lt: String
-
-  """All values less than or equal the given value."""
   name_lte: String
-
-  """All values greater than the given value."""
   name_gt: String
-
-  """All values greater than or equal the given value."""
   name_gte: String
-
-  """All values containing the given string."""
   name_contains: String
-
-  """All values not containing the given string."""
   name_not_contains: String
-
-  """All values starting with the given string."""
   name_starts_with: String
-
-  """All values not starting with the given string."""
   name_not_starts_with: String
-
-  """All values ending with the given string."""
   name_ends_with: String
-
-  """All values not ending with the given string."""
   name_not_ends_with: String
   completed: Boolean
-
-  """All values that are not equal to given value."""
   completed_not: Boolean
   completedBy: UserWhereInput
-  _MagicalBackRelation_CheckLystToItem_every: CheckLystWhereInput
-  _MagicalBackRelation_CheckLystToItem_some: CheckLystWhereInput
-  _MagicalBackRelation_CheckLystToItem_none: CheckLystWhereInput
-  _MagicalBackRelation_ItemToTemplateLyst_every: TemplateLystWhereInput
-  _MagicalBackRelation_ItemToTemplateLyst_some: TemplateLystWhereInput
-  _MagicalBackRelation_ItemToTemplateLyst_none: TemplateLystWhereInput
+  AND: [ItemWhereInput!]
+  OR: [ItemWhereInput!]
+  NOT: [ItemWhereInput!]
 }
 
 input ItemWhereUniqueInput {
   id: ID
 }
 
-type Label implements Node {
+type Label {
   id: ID!
-  user(where: UserWhereInput): User!
+  user: User!
   checkLysts(where: CheckLystWhereInput, orderBy: CheckLystOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [CheckLyst!]
   name: String!
   color: Color!
 }
 
-"""A connection to a list of items."""
 type LabelConnection {
-  """Information to aid in pagination."""
   pageInfo: PageInfo!
-
-  """A list of edges."""
   edges: [LabelEdge]!
   aggregate: AggregateLabel!
 }
 
 input LabelCreateInput {
-  name: String!
-  color: Color!
   user: UserCreateOneInput!
   checkLysts: CheckLystCreateManyWithoutLabelInput
+  name: String!
+  color: Color!
 }
 
 input LabelCreateOneWithoutCheckLystsInput {
@@ -921,17 +665,13 @@ input LabelCreateOneWithoutCheckLystsInput {
 }
 
 input LabelCreateWithoutCheckLystsInput {
+  user: UserCreateOneInput!
   name: String!
   color: Color!
-  user: UserCreateOneInput!
 }
 
-"""An edge in a connection."""
 type LabelEdge {
-  """The item at the end of the edge."""
   node: Label!
-
-  """A cursor for use in pagination."""
   cursor: String!
 }
 
@@ -942,10 +682,10 @@ enum LabelOrderByInput {
   name_DESC
   color_ASC
   color_DESC
-  updatedAt_ASC
-  updatedAt_DESC
   createdAt_ASC
   createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
 }
 
 type LabelPreviousValues {
@@ -962,57 +702,36 @@ type LabelSubscriptionPayload {
 }
 
 input LabelSubscriptionWhereInput {
-  """Logical AND on all given filters."""
-  AND: [LabelSubscriptionWhereInput!]
-
-  """Logical OR on all given filters."""
-  OR: [LabelSubscriptionWhereInput!]
-
-  """Logical NOT on all given filters combined by AND."""
-  NOT: [LabelSubscriptionWhereInput!]
-
-  """
-  The subscription event gets dispatched when it's listed in mutation_in
-  """
   mutation_in: [MutationType!]
-
-  """
-  The subscription event gets only dispatched when one of the updated fields names is included in this list
-  """
   updatedFields_contains: String
-
-  """
-  The subscription event gets only dispatched when all of the field names included in this list have been updated
-  """
   updatedFields_contains_every: [String!]
-
-  """
-  The subscription event gets only dispatched when some of the field names included in this list have been updated
-  """
   updatedFields_contains_some: [String!]
   node: LabelWhereInput
+  AND: [LabelSubscriptionWhereInput!]
+  OR: [LabelSubscriptionWhereInput!]
+  NOT: [LabelSubscriptionWhereInput!]
 }
 
 input LabelUpdateInput {
-  name: String
-  color: Color
   user: UserUpdateOneInput
   checkLysts: CheckLystUpdateManyWithoutLabelInput
+  name: String
+  color: Color
 }
 
 input LabelUpdateOneWithoutCheckLystsInput {
   create: LabelCreateWithoutCheckLystsInput
-  connect: LabelWhereUniqueInput
-  disconnect: Boolean
-  delete: Boolean
   update: LabelUpdateWithoutCheckLystsDataInput
   upsert: LabelUpsertWithoutCheckLystsInput
+  delete: Boolean
+  disconnect: Boolean
+  connect: LabelWhereUniqueInput
 }
 
 input LabelUpdateWithoutCheckLystsDataInput {
+  user: UserUpdateOneInput
   name: String
   color: Color
-  user: UserUpdateOneInput
 }
 
 input LabelUpsertWithoutCheckLystsInput {
@@ -1021,163 +740,96 @@ input LabelUpsertWithoutCheckLystsInput {
 }
 
 input LabelWhereInput {
-  """Logical AND on all given filters."""
-  AND: [LabelWhereInput!]
-
-  """Logical OR on all given filters."""
-  OR: [LabelWhereInput!]
-
-  """Logical NOT on all given filters combined by AND."""
-  NOT: [LabelWhereInput!]
   id: ID
-
-  """All values that are not equal to given value."""
   id_not: ID
-
-  """All values that are contained in given list."""
   id_in: [ID!]
-
-  """All values that are not contained in given list."""
   id_not_in: [ID!]
-
-  """All values less than the given value."""
   id_lt: ID
-
-  """All values less than or equal the given value."""
   id_lte: ID
-
-  """All values greater than the given value."""
   id_gt: ID
-
-  """All values greater than or equal the given value."""
   id_gte: ID
-
-  """All values containing the given string."""
   id_contains: ID
-
-  """All values not containing the given string."""
   id_not_contains: ID
-
-  """All values starting with the given string."""
   id_starts_with: ID
-
-  """All values not starting with the given string."""
   id_not_starts_with: ID
-
-  """All values ending with the given string."""
   id_ends_with: ID
-
-  """All values not ending with the given string."""
   id_not_ends_with: ID
-  name: String
-
-  """All values that are not equal to given value."""
-  name_not: String
-
-  """All values that are contained in given list."""
-  name_in: [String!]
-
-  """All values that are not contained in given list."""
-  name_not_in: [String!]
-
-  """All values less than the given value."""
-  name_lt: String
-
-  """All values less than or equal the given value."""
-  name_lte: String
-
-  """All values greater than the given value."""
-  name_gt: String
-
-  """All values greater than or equal the given value."""
-  name_gte: String
-
-  """All values containing the given string."""
-  name_contains: String
-
-  """All values not containing the given string."""
-  name_not_contains: String
-
-  """All values starting with the given string."""
-  name_starts_with: String
-
-  """All values not starting with the given string."""
-  name_not_starts_with: String
-
-  """All values ending with the given string."""
-  name_ends_with: String
-
-  """All values not ending with the given string."""
-  name_not_ends_with: String
-  color: Color
-
-  """All values that are not equal to given value."""
-  color_not: Color
-
-  """All values that are contained in given list."""
-  color_in: [Color!]
-
-  """All values that are not contained in given list."""
-  color_not_in: [Color!]
   user: UserWhereInput
   checkLysts_every: CheckLystWhereInput
   checkLysts_some: CheckLystWhereInput
   checkLysts_none: CheckLystWhereInput
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  color: Color
+  color_not: Color
+  color_in: [Color!]
+  color_not_in: [Color!]
+  AND: [LabelWhereInput!]
+  OR: [LabelWhereInput!]
+  NOT: [LabelWhereInput!]
 }
 
 input LabelWhereUniqueInput {
   id: ID
 }
 
-"""
-The `Long` scalar type represents non-fractional signed whole numeric values.
-Long can represent values between -(2^63) and 2^63 - 1.
-"""
 scalar Long
 
 type Mutation {
-  createCheckLyst(data: CheckLystCreateInput!): CheckLyst!
-  createLabel(data: LabelCreateInput!): Label!
-  createTemplateLyst(data: TemplateLystCreateInput!): TemplateLyst!
-  createTeam(data: TeamCreateInput!): Team!
   createActivity(data: ActivityCreateInput!): Activity!
-  createUser(data: UserCreateInput!): User!
-  createItem(data: ItemCreateInput!): Item!
-  updateCheckLyst(data: CheckLystUpdateInput!, where: CheckLystWhereUniqueInput!): CheckLyst
-  updateLabel(data: LabelUpdateInput!, where: LabelWhereUniqueInput!): Label
-  updateTemplateLyst(data: TemplateLystUpdateInput!, where: TemplateLystWhereUniqueInput!): TemplateLyst
-  updateTeam(data: TeamUpdateInput!, where: TeamWhereUniqueInput!): Team
   updateActivity(data: ActivityUpdateInput!, where: ActivityWhereUniqueInput!): Activity
-  updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
-  updateItem(data: ItemUpdateInput!, where: ItemWhereUniqueInput!): Item
-  deleteCheckLyst(where: CheckLystWhereUniqueInput!): CheckLyst
-  deleteLabel(where: LabelWhereUniqueInput!): Label
-  deleteTemplateLyst(where: TemplateLystWhereUniqueInput!): TemplateLyst
-  deleteTeam(where: TeamWhereUniqueInput!): Team
-  deleteActivity(where: ActivityWhereUniqueInput!): Activity
-  deleteUser(where: UserWhereUniqueInput!): User
-  deleteItem(where: ItemWhereUniqueInput!): Item
-  upsertCheckLyst(where: CheckLystWhereUniqueInput!, create: CheckLystCreateInput!, update: CheckLystUpdateInput!): CheckLyst!
-  upsertLabel(where: LabelWhereUniqueInput!, create: LabelCreateInput!, update: LabelUpdateInput!): Label!
-  upsertTemplateLyst(where: TemplateLystWhereUniqueInput!, create: TemplateLystCreateInput!, update: TemplateLystUpdateInput!): TemplateLyst!
-  upsertTeam(where: TeamWhereUniqueInput!, create: TeamCreateInput!, update: TeamUpdateInput!): Team!
-  upsertActivity(where: ActivityWhereUniqueInput!, create: ActivityCreateInput!, update: ActivityUpdateInput!): Activity!
-  upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
-  upsertItem(where: ItemWhereUniqueInput!, create: ItemCreateInput!, update: ItemUpdateInput!): Item!
-  updateManyCheckLysts(data: CheckLystUpdateInput!, where: CheckLystWhereInput): BatchPayload!
-  updateManyLabels(data: LabelUpdateInput!, where: LabelWhereInput): BatchPayload!
-  updateManyTemplateLysts(data: TemplateLystUpdateInput!, where: TemplateLystWhereInput): BatchPayload!
-  updateManyTeams(data: TeamUpdateInput!, where: TeamWhereInput): BatchPayload!
   updateManyActivities(data: ActivityUpdateInput!, where: ActivityWhereInput): BatchPayload!
-  updateManyUsers(data: UserUpdateInput!, where: UserWhereInput): BatchPayload!
-  updateManyItems(data: ItemUpdateInput!, where: ItemWhereInput): BatchPayload!
-  deleteManyCheckLysts(where: CheckLystWhereInput): BatchPayload!
-  deleteManyLabels(where: LabelWhereInput): BatchPayload!
-  deleteManyTemplateLysts(where: TemplateLystWhereInput): BatchPayload!
-  deleteManyTeams(where: TeamWhereInput): BatchPayload!
+  upsertActivity(where: ActivityWhereUniqueInput!, create: ActivityCreateInput!, update: ActivityUpdateInput!): Activity!
+  deleteActivity(where: ActivityWhereUniqueInput!): Activity
   deleteManyActivities(where: ActivityWhereInput): BatchPayload!
-  deleteManyUsers(where: UserWhereInput): BatchPayload!
+  createCheckLyst(data: CheckLystCreateInput!): CheckLyst!
+  updateCheckLyst(data: CheckLystUpdateInput!, where: CheckLystWhereUniqueInput!): CheckLyst
+  updateManyCheckLysts(data: CheckLystUpdateInput!, where: CheckLystWhereInput): BatchPayload!
+  upsertCheckLyst(where: CheckLystWhereUniqueInput!, create: CheckLystCreateInput!, update: CheckLystUpdateInput!): CheckLyst!
+  deleteCheckLyst(where: CheckLystWhereUniqueInput!): CheckLyst
+  deleteManyCheckLysts(where: CheckLystWhereInput): BatchPayload!
+  createItem(data: ItemCreateInput!): Item!
+  updateItem(data: ItemUpdateInput!, where: ItemWhereUniqueInput!): Item
+  updateManyItems(data: ItemUpdateInput!, where: ItemWhereInput): BatchPayload!
+  upsertItem(where: ItemWhereUniqueInput!, create: ItemCreateInput!, update: ItemUpdateInput!): Item!
+  deleteItem(where: ItemWhereUniqueInput!): Item
   deleteManyItems(where: ItemWhereInput): BatchPayload!
+  createLabel(data: LabelCreateInput!): Label!
+  updateLabel(data: LabelUpdateInput!, where: LabelWhereUniqueInput!): Label
+  updateManyLabels(data: LabelUpdateInput!, where: LabelWhereInput): BatchPayload!
+  upsertLabel(where: LabelWhereUniqueInput!, create: LabelCreateInput!, update: LabelUpdateInput!): Label!
+  deleteLabel(where: LabelWhereUniqueInput!): Label
+  deleteManyLabels(where: LabelWhereInput): BatchPayload!
+  createTemplateLyst(data: TemplateLystCreateInput!): TemplateLyst!
+  updateTemplateLyst(data: TemplateLystUpdateInput!, where: TemplateLystWhereUniqueInput!): TemplateLyst
+  updateManyTemplateLysts(data: TemplateLystUpdateInput!, where: TemplateLystWhereInput): BatchPayload!
+  upsertTemplateLyst(where: TemplateLystWhereUniqueInput!, create: TemplateLystCreateInput!, update: TemplateLystUpdateInput!): TemplateLyst!
+  deleteTemplateLyst(where: TemplateLystWhereUniqueInput!): TemplateLyst
+  deleteManyTemplateLysts(where: TemplateLystWhereInput): BatchPayload!
+  createTeam(data: TeamCreateInput!): Team!
+  updateTeam(data: TeamUpdateInput!, where: TeamWhereUniqueInput!): Team
+  updateManyTeams(data: TeamUpdateInput!, where: TeamWhereInput): BatchPayload!
+  upsertTeam(where: TeamWhereUniqueInput!, create: TeamCreateInput!, update: TeamUpdateInput!): Team!
+  deleteTeam(where: TeamWhereUniqueInput!): Team
+  deleteManyTeams(where: TeamWhereInput): BatchPayload!
+  createUser(data: UserCreateInput!): User!
+  updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
+  updateManyUsers(data: UserUpdateInput!, where: UserWhereInput): BatchPayload!
+  upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
+  deleteUser(where: UserWhereUniqueInput!): User
+  deleteManyUsers(where: UserWhereInput): BatchPayload!
 }
 
 enum MutationType {
@@ -1186,71 +838,56 @@ enum MutationType {
   DELETED
 }
 
-"""An object with an ID"""
 interface Node {
-  """The id of the object."""
   id: ID!
 }
 
-"""Information about pagination in a connection."""
 type PageInfo {
-  """When paginating forwards, are there more items?"""
   hasNextPage: Boolean!
-
-  """When paginating backwards, are there more items?"""
   hasPreviousPage: Boolean!
-
-  """When paginating backwards, the cursor to continue."""
   startCursor: String
-
-  """When paginating forwards, the cursor to continue."""
   endCursor: String
 }
 
 type Query {
-  checkLysts(where: CheckLystWhereInput, orderBy: CheckLystOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [CheckLyst]!
-  labels(where: LabelWhereInput, orderBy: LabelOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Label]!
-  templateLysts(where: TemplateLystWhereInput, orderBy: TemplateLystOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [TemplateLyst]!
-  teams(where: TeamWhereInput, orderBy: TeamOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Team]!
-  activities(where: ActivityWhereInput, orderBy: ActivityOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Activity]!
-  users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
-  items(where: ItemWhereInput, orderBy: ItemOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Item]!
-  checkLyst(where: CheckLystWhereUniqueInput!): CheckLyst
-  label(where: LabelWhereUniqueInput!): Label
-  templateLyst(where: TemplateLystWhereUniqueInput!): TemplateLyst
-  team(where: TeamWhereUniqueInput!): Team
   activity(where: ActivityWhereUniqueInput!): Activity
-  user(where: UserWhereUniqueInput!): User
-  item(where: ItemWhereUniqueInput!): Item
-  checkLystsConnection(where: CheckLystWhereInput, orderBy: CheckLystOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): CheckLystConnection!
-  labelsConnection(where: LabelWhereInput, orderBy: LabelOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): LabelConnection!
-  templateLystsConnection(where: TemplateLystWhereInput, orderBy: TemplateLystOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): TemplateLystConnection!
-  teamsConnection(where: TeamWhereInput, orderBy: TeamOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): TeamConnection!
+  activities(where: ActivityWhereInput, orderBy: ActivityOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Activity]!
   activitiesConnection(where: ActivityWhereInput, orderBy: ActivityOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ActivityConnection!
-  usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
+  checkLyst(where: CheckLystWhereUniqueInput!): CheckLyst
+  checkLysts(where: CheckLystWhereInput, orderBy: CheckLystOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [CheckLyst]!
+  checkLystsConnection(where: CheckLystWhereInput, orderBy: CheckLystOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): CheckLystConnection!
+  item(where: ItemWhereUniqueInput!): Item
+  items(where: ItemWhereInput, orderBy: ItemOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Item]!
   itemsConnection(where: ItemWhereInput, orderBy: ItemOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ItemConnection!
-
-  """Fetches an object given its ID"""
-  node(
-    """The ID of an object"""
-    id: ID!
-  ): Node
+  label(where: LabelWhereUniqueInput!): Label
+  labels(where: LabelWhereInput, orderBy: LabelOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Label]!
+  labelsConnection(where: LabelWhereInput, orderBy: LabelOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): LabelConnection!
+  templateLyst(where: TemplateLystWhereUniqueInput!): TemplateLyst
+  templateLysts(where: TemplateLystWhereInput, orderBy: TemplateLystOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [TemplateLyst]!
+  templateLystsConnection(where: TemplateLystWhereInput, orderBy: TemplateLystOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): TemplateLystConnection!
+  team(where: TeamWhereUniqueInput!): Team
+  teams(where: TeamWhereInput, orderBy: TeamOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Team]!
+  teamsConnection(where: TeamWhereInput, orderBy: TeamOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): TeamConnection!
+  user(where: UserWhereUniqueInput!): User
+  users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
+  usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
+  node(id: ID!): Node
 }
 
 type Subscription {
+  activity(where: ActivitySubscriptionWhereInput): ActivitySubscriptionPayload
   checkLyst(where: CheckLystSubscriptionWhereInput): CheckLystSubscriptionPayload
+  item(where: ItemSubscriptionWhereInput): ItemSubscriptionPayload
   label(where: LabelSubscriptionWhereInput): LabelSubscriptionPayload
   templateLyst(where: TemplateLystSubscriptionWhereInput): TemplateLystSubscriptionPayload
   team(where: TeamSubscriptionWhereInput): TeamSubscriptionPayload
-  activity(where: ActivitySubscriptionWhereInput): ActivitySubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
-  item(where: ItemSubscriptionWhereInput): ItemSubscriptionPayload
 }
 
-type Team implements Node {
+type Team {
   id: ID!
   name: String!
-  owner(where: UserWhereInput): User!
+  owner: User!
   admins(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
   creators(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
@@ -1261,27 +898,28 @@ type Team implements Node {
   activityLogs(where: ActivityWhereInput, orderBy: ActivityOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Activity!]
 }
 
-"""A connection to a list of items."""
 type TeamConnection {
-  """Information to aid in pagination."""
   pageInfo: PageInfo!
-
-  """A list of edges."""
   edges: [TeamEdge]!
   aggregate: AggregateTeam!
 }
 
 input TeamCreateInput {
   name: String!
-  logo: String
-  itemsCompleted: Int
   owner: UserCreateOneInput!
   admins: UserCreateManyInput
   creators: UserCreateManyInput
-  users: UserCreateManyWithoutTeamsInput
+  users: UserCreateManyInput
+  logo: String
   checkLysts: CheckLystCreateManyWithoutTeamsInput
   templateLysts: TemplateLystCreateManyWithoutTeamsInput
+  itemsCompleted: Int
   activityLogs: ActivityCreateManyInput
+}
+
+input TeamCreateManyInput {
+  create: [TeamCreateInput!]
+  connect: [TeamWhereUniqueInput!]
 }
 
 input TeamCreateManyWithoutCheckLystsInput {
@@ -1294,53 +932,32 @@ input TeamCreateManyWithoutTemplateLystsInput {
   connect: [TeamWhereUniqueInput!]
 }
 
-input TeamCreateManyWithoutUsersInput {
-  create: [TeamCreateWithoutUsersInput!]
-  connect: [TeamWhereUniqueInput!]
-}
-
 input TeamCreateWithoutCheckLystsInput {
   name: String!
-  logo: String
-  itemsCompleted: Int
   owner: UserCreateOneInput!
   admins: UserCreateManyInput
   creators: UserCreateManyInput
-  users: UserCreateManyWithoutTeamsInput
+  users: UserCreateManyInput
+  logo: String
   templateLysts: TemplateLystCreateManyWithoutTeamsInput
+  itemsCompleted: Int
   activityLogs: ActivityCreateManyInput
 }
 
 input TeamCreateWithoutTemplateLystsInput {
   name: String!
-  logo: String
-  itemsCompleted: Int
   owner: UserCreateOneInput!
   admins: UserCreateManyInput
   creators: UserCreateManyInput
-  users: UserCreateManyWithoutTeamsInput
-  checkLysts: CheckLystCreateManyWithoutTeamsInput
-  activityLogs: ActivityCreateManyInput
-}
-
-input TeamCreateWithoutUsersInput {
-  name: String!
+  users: UserCreateManyInput
   logo: String
-  itemsCompleted: Int
-  owner: UserCreateOneInput!
-  admins: UserCreateManyInput
-  creators: UserCreateManyInput
   checkLysts: CheckLystCreateManyWithoutTeamsInput
-  templateLysts: TemplateLystCreateManyWithoutTeamsInput
+  itemsCompleted: Int
   activityLogs: ActivityCreateManyInput
 }
 
-"""An edge in a connection."""
 type TeamEdge {
-  """The item at the end of the edge."""
   node: Team!
-
-  """A cursor for use in pagination."""
   cursor: String!
 }
 
@@ -1353,10 +970,10 @@ enum TeamOrderByInput {
   logo_DESC
   itemsCompleted_ASC
   itemsCompleted_DESC
-  updatedAt_ASC
-  updatedAt_DESC
   createdAt_ASC
   createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
 }
 
 type TeamPreviousValues {
@@ -1374,111 +991,96 @@ type TeamSubscriptionPayload {
 }
 
 input TeamSubscriptionWhereInput {
-  """Logical AND on all given filters."""
-  AND: [TeamSubscriptionWhereInput!]
-
-  """Logical OR on all given filters."""
-  OR: [TeamSubscriptionWhereInput!]
-
-  """Logical NOT on all given filters combined by AND."""
-  NOT: [TeamSubscriptionWhereInput!]
-
-  """
-  The subscription event gets dispatched when it's listed in mutation_in
-  """
   mutation_in: [MutationType!]
-
-  """
-  The subscription event gets only dispatched when one of the updated fields names is included in this list
-  """
   updatedFields_contains: String
-
-  """
-  The subscription event gets only dispatched when all of the field names included in this list have been updated
-  """
   updatedFields_contains_every: [String!]
-
-  """
-  The subscription event gets only dispatched when some of the field names included in this list have been updated
-  """
   updatedFields_contains_some: [String!]
   node: TeamWhereInput
+  AND: [TeamSubscriptionWhereInput!]
+  OR: [TeamSubscriptionWhereInput!]
+  NOT: [TeamSubscriptionWhereInput!]
+}
+
+input TeamUpdateDataInput {
+  name: String
+  owner: UserUpdateOneInput
+  admins: UserUpdateManyInput
+  creators: UserUpdateManyInput
+  users: UserUpdateManyInput
+  logo: String
+  checkLysts: CheckLystUpdateManyWithoutTeamsInput
+  templateLysts: TemplateLystUpdateManyWithoutTeamsInput
+  itemsCompleted: Int
+  activityLogs: ActivityUpdateManyInput
 }
 
 input TeamUpdateInput {
   name: String
-  logo: String
-  itemsCompleted: Int
   owner: UserUpdateOneInput
   admins: UserUpdateManyInput
   creators: UserUpdateManyInput
-  users: UserUpdateManyWithoutTeamsInput
+  users: UserUpdateManyInput
+  logo: String
   checkLysts: CheckLystUpdateManyWithoutTeamsInput
   templateLysts: TemplateLystUpdateManyWithoutTeamsInput
+  itemsCompleted: Int
   activityLogs: ActivityUpdateManyInput
+}
+
+input TeamUpdateManyInput {
+  create: [TeamCreateInput!]
+  delete: [TeamWhereUniqueInput!]
+  connect: [TeamWhereUniqueInput!]
+  disconnect: [TeamWhereUniqueInput!]
+  update: [TeamUpdateWithWhereUniqueNestedInput!]
+  upsert: [TeamUpsertWithWhereUniqueNestedInput!]
 }
 
 input TeamUpdateManyWithoutCheckLystsInput {
   create: [TeamCreateWithoutCheckLystsInput!]
+  delete: [TeamWhereUniqueInput!]
   connect: [TeamWhereUniqueInput!]
   disconnect: [TeamWhereUniqueInput!]
-  delete: [TeamWhereUniqueInput!]
   update: [TeamUpdateWithWhereUniqueWithoutCheckLystsInput!]
   upsert: [TeamUpsertWithWhereUniqueWithoutCheckLystsInput!]
 }
 
 input TeamUpdateManyWithoutTemplateLystsInput {
   create: [TeamCreateWithoutTemplateLystsInput!]
+  delete: [TeamWhereUniqueInput!]
   connect: [TeamWhereUniqueInput!]
   disconnect: [TeamWhereUniqueInput!]
-  delete: [TeamWhereUniqueInput!]
   update: [TeamUpdateWithWhereUniqueWithoutTemplateLystsInput!]
   upsert: [TeamUpsertWithWhereUniqueWithoutTemplateLystsInput!]
 }
 
-input TeamUpdateManyWithoutUsersInput {
-  create: [TeamCreateWithoutUsersInput!]
-  connect: [TeamWhereUniqueInput!]
-  disconnect: [TeamWhereUniqueInput!]
-  delete: [TeamWhereUniqueInput!]
-  update: [TeamUpdateWithWhereUniqueWithoutUsersInput!]
-  upsert: [TeamUpsertWithWhereUniqueWithoutUsersInput!]
-}
-
 input TeamUpdateWithoutCheckLystsDataInput {
   name: String
-  logo: String
-  itemsCompleted: Int
   owner: UserUpdateOneInput
   admins: UserUpdateManyInput
   creators: UserUpdateManyInput
-  users: UserUpdateManyWithoutTeamsInput
+  users: UserUpdateManyInput
+  logo: String
   templateLysts: TemplateLystUpdateManyWithoutTeamsInput
+  itemsCompleted: Int
   activityLogs: ActivityUpdateManyInput
 }
 
 input TeamUpdateWithoutTemplateLystsDataInput {
   name: String
-  logo: String
-  itemsCompleted: Int
   owner: UserUpdateOneInput
   admins: UserUpdateManyInput
   creators: UserUpdateManyInput
-  users: UserUpdateManyWithoutTeamsInput
+  users: UserUpdateManyInput
+  logo: String
   checkLysts: CheckLystUpdateManyWithoutTeamsInput
+  itemsCompleted: Int
   activityLogs: ActivityUpdateManyInput
 }
 
-input TeamUpdateWithoutUsersDataInput {
-  name: String
-  logo: String
-  itemsCompleted: Int
-  owner: UserUpdateOneInput
-  admins: UserUpdateManyInput
-  creators: UserUpdateManyInput
-  checkLysts: CheckLystUpdateManyWithoutTeamsInput
-  templateLysts: TemplateLystUpdateManyWithoutTeamsInput
-  activityLogs: ActivityUpdateManyInput
+input TeamUpdateWithWhereUniqueNestedInput {
+  where: TeamWhereUniqueInput!
+  data: TeamUpdateDataInput!
 }
 
 input TeamUpdateWithWhereUniqueWithoutCheckLystsInput {
@@ -1491,9 +1093,10 @@ input TeamUpdateWithWhereUniqueWithoutTemplateLystsInput {
   data: TeamUpdateWithoutTemplateLystsDataInput!
 }
 
-input TeamUpdateWithWhereUniqueWithoutUsersInput {
+input TeamUpsertWithWhereUniqueNestedInput {
   where: TeamWhereUniqueInput!
-  data: TeamUpdateWithoutUsersDataInput!
+  update: TeamUpdateDataInput!
+  create: TeamCreateInput!
 }
 
 input TeamUpsertWithWhereUniqueWithoutCheckLystsInput {
@@ -1508,163 +1111,35 @@ input TeamUpsertWithWhereUniqueWithoutTemplateLystsInput {
   create: TeamCreateWithoutTemplateLystsInput!
 }
 
-input TeamUpsertWithWhereUniqueWithoutUsersInput {
-  where: TeamWhereUniqueInput!
-  update: TeamUpdateWithoutUsersDataInput!
-  create: TeamCreateWithoutUsersInput!
-}
-
 input TeamWhereInput {
-  """Logical AND on all given filters."""
-  AND: [TeamWhereInput!]
-
-  """Logical OR on all given filters."""
-  OR: [TeamWhereInput!]
-
-  """Logical NOT on all given filters combined by AND."""
-  NOT: [TeamWhereInput!]
   id: ID
-
-  """All values that are not equal to given value."""
   id_not: ID
-
-  """All values that are contained in given list."""
   id_in: [ID!]
-
-  """All values that are not contained in given list."""
   id_not_in: [ID!]
-
-  """All values less than the given value."""
   id_lt: ID
-
-  """All values less than or equal the given value."""
   id_lte: ID
-
-  """All values greater than the given value."""
   id_gt: ID
-
-  """All values greater than or equal the given value."""
   id_gte: ID
-
-  """All values containing the given string."""
   id_contains: ID
-
-  """All values not containing the given string."""
   id_not_contains: ID
-
-  """All values starting with the given string."""
   id_starts_with: ID
-
-  """All values not starting with the given string."""
   id_not_starts_with: ID
-
-  """All values ending with the given string."""
   id_ends_with: ID
-
-  """All values not ending with the given string."""
   id_not_ends_with: ID
   name: String
-
-  """All values that are not equal to given value."""
   name_not: String
-
-  """All values that are contained in given list."""
   name_in: [String!]
-
-  """All values that are not contained in given list."""
   name_not_in: [String!]
-
-  """All values less than the given value."""
   name_lt: String
-
-  """All values less than or equal the given value."""
   name_lte: String
-
-  """All values greater than the given value."""
   name_gt: String
-
-  """All values greater than or equal the given value."""
   name_gte: String
-
-  """All values containing the given string."""
   name_contains: String
-
-  """All values not containing the given string."""
   name_not_contains: String
-
-  """All values starting with the given string."""
   name_starts_with: String
-
-  """All values not starting with the given string."""
   name_not_starts_with: String
-
-  """All values ending with the given string."""
   name_ends_with: String
-
-  """All values not ending with the given string."""
   name_not_ends_with: String
-  logo: String
-
-  """All values that are not equal to given value."""
-  logo_not: String
-
-  """All values that are contained in given list."""
-  logo_in: [String!]
-
-  """All values that are not contained in given list."""
-  logo_not_in: [String!]
-
-  """All values less than the given value."""
-  logo_lt: String
-
-  """All values less than or equal the given value."""
-  logo_lte: String
-
-  """All values greater than the given value."""
-  logo_gt: String
-
-  """All values greater than or equal the given value."""
-  logo_gte: String
-
-  """All values containing the given string."""
-  logo_contains: String
-
-  """All values not containing the given string."""
-  logo_not_contains: String
-
-  """All values starting with the given string."""
-  logo_starts_with: String
-
-  """All values not starting with the given string."""
-  logo_not_starts_with: String
-
-  """All values ending with the given string."""
-  logo_ends_with: String
-
-  """All values not ending with the given string."""
-  logo_not_ends_with: String
-  itemsCompleted: Int
-
-  """All values that are not equal to given value."""
-  itemsCompleted_not: Int
-
-  """All values that are contained in given list."""
-  itemsCompleted_in: [Int!]
-
-  """All values that are not contained in given list."""
-  itemsCompleted_not_in: [Int!]
-
-  """All values less than the given value."""
-  itemsCompleted_lt: Int
-
-  """All values less than or equal the given value."""
-  itemsCompleted_lte: Int
-
-  """All values greater than the given value."""
-  itemsCompleted_gt: Int
-
-  """All values greater than or equal the given value."""
-  itemsCompleted_gte: Int
   owner: UserWhereInput
   admins_every: UserWhereInput
   admins_some: UserWhereInput
@@ -1675,22 +1150,47 @@ input TeamWhereInput {
   users_every: UserWhereInput
   users_some: UserWhereInput
   users_none: UserWhereInput
+  logo: String
+  logo_not: String
+  logo_in: [String!]
+  logo_not_in: [String!]
+  logo_lt: String
+  logo_lte: String
+  logo_gt: String
+  logo_gte: String
+  logo_contains: String
+  logo_not_contains: String
+  logo_starts_with: String
+  logo_not_starts_with: String
+  logo_ends_with: String
+  logo_not_ends_with: String
   checkLysts_every: CheckLystWhereInput
   checkLysts_some: CheckLystWhereInput
   checkLysts_none: CheckLystWhereInput
   templateLysts_every: TemplateLystWhereInput
   templateLysts_some: TemplateLystWhereInput
   templateLysts_none: TemplateLystWhereInput
+  itemsCompleted: Int
+  itemsCompleted_not: Int
+  itemsCompleted_in: [Int!]
+  itemsCompleted_not_in: [Int!]
+  itemsCompleted_lt: Int
+  itemsCompleted_lte: Int
+  itemsCompleted_gt: Int
+  itemsCompleted_gte: Int
   activityLogs_every: ActivityWhereInput
   activityLogs_some: ActivityWhereInput
   activityLogs_none: ActivityWhereInput
+  AND: [TeamWhereInput!]
+  OR: [TeamWhereInput!]
+  NOT: [TeamWhereInput!]
 }
 
 input TeamWhereUniqueInput {
   id: ID
 }
 
-type TemplateLyst implements Node {
+type TemplateLyst {
   id: ID!
   name: String!
   items(where: ItemWhereInput, orderBy: ItemOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Item!]
@@ -1698,12 +1198,8 @@ type TemplateLyst implements Node {
   teams(where: TeamWhereInput, orderBy: TeamOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Team!]
 }
 
-"""A connection to a list of items."""
 type TemplateLystConnection {
-  """Information to aid in pagination."""
   pageInfo: PageInfo!
-
-  """A list of edges."""
   edges: [TemplateLystEdge]!
   aggregate: AggregateTemplateLyst!
 }
@@ -1737,12 +1233,8 @@ input TemplateLystCreateWithoutUsersInput {
   teams: TeamCreateManyWithoutTemplateLystsInput
 }
 
-"""An edge in a connection."""
 type TemplateLystEdge {
-  """The item at the end of the edge."""
   node: TemplateLyst!
-
-  """A cursor for use in pagination."""
   cursor: String!
 }
 
@@ -1751,10 +1243,10 @@ enum TemplateLystOrderByInput {
   id_DESC
   name_ASC
   name_DESC
-  updatedAt_ASC
-  updatedAt_DESC
   createdAt_ASC
   createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
 }
 
 type TemplateLystPreviousValues {
@@ -1770,35 +1262,14 @@ type TemplateLystSubscriptionPayload {
 }
 
 input TemplateLystSubscriptionWhereInput {
-  """Logical AND on all given filters."""
-  AND: [TemplateLystSubscriptionWhereInput!]
-
-  """Logical OR on all given filters."""
-  OR: [TemplateLystSubscriptionWhereInput!]
-
-  """Logical NOT on all given filters combined by AND."""
-  NOT: [TemplateLystSubscriptionWhereInput!]
-
-  """
-  The subscription event gets dispatched when it's listed in mutation_in
-  """
   mutation_in: [MutationType!]
-
-  """
-  The subscription event gets only dispatched when one of the updated fields names is included in this list
-  """
   updatedFields_contains: String
-
-  """
-  The subscription event gets only dispatched when all of the field names included in this list have been updated
-  """
   updatedFields_contains_every: [String!]
-
-  """
-  The subscription event gets only dispatched when some of the field names included in this list have been updated
-  """
   updatedFields_contains_some: [String!]
   node: TemplateLystWhereInput
+  AND: [TemplateLystSubscriptionWhereInput!]
+  OR: [TemplateLystSubscriptionWhereInput!]
+  NOT: [TemplateLystSubscriptionWhereInput!]
 }
 
 input TemplateLystUpdateInput {
@@ -1810,18 +1281,18 @@ input TemplateLystUpdateInput {
 
 input TemplateLystUpdateManyWithoutTeamsInput {
   create: [TemplateLystCreateWithoutTeamsInput!]
+  delete: [TemplateLystWhereUniqueInput!]
   connect: [TemplateLystWhereUniqueInput!]
   disconnect: [TemplateLystWhereUniqueInput!]
-  delete: [TemplateLystWhereUniqueInput!]
   update: [TemplateLystUpdateWithWhereUniqueWithoutTeamsInput!]
   upsert: [TemplateLystUpsertWithWhereUniqueWithoutTeamsInput!]
 }
 
 input TemplateLystUpdateManyWithoutUsersInput {
   create: [TemplateLystCreateWithoutUsersInput!]
+  delete: [TemplateLystWhereUniqueInput!]
   connect: [TemplateLystWhereUniqueInput!]
   disconnect: [TemplateLystWhereUniqueInput!]
-  delete: [TemplateLystWhereUniqueInput!]
   update: [TemplateLystUpdateWithWhereUniqueWithoutUsersInput!]
   upsert: [TemplateLystUpsertWithWhereUniqueWithoutUsersInput!]
 }
@@ -1861,93 +1332,33 @@ input TemplateLystUpsertWithWhereUniqueWithoutUsersInput {
 }
 
 input TemplateLystWhereInput {
-  """Logical AND on all given filters."""
-  AND: [TemplateLystWhereInput!]
-
-  """Logical OR on all given filters."""
-  OR: [TemplateLystWhereInput!]
-
-  """Logical NOT on all given filters combined by AND."""
-  NOT: [TemplateLystWhereInput!]
   id: ID
-
-  """All values that are not equal to given value."""
   id_not: ID
-
-  """All values that are contained in given list."""
   id_in: [ID!]
-
-  """All values that are not contained in given list."""
   id_not_in: [ID!]
-
-  """All values less than the given value."""
   id_lt: ID
-
-  """All values less than or equal the given value."""
   id_lte: ID
-
-  """All values greater than the given value."""
   id_gt: ID
-
-  """All values greater than or equal the given value."""
   id_gte: ID
-
-  """All values containing the given string."""
   id_contains: ID
-
-  """All values not containing the given string."""
   id_not_contains: ID
-
-  """All values starting with the given string."""
   id_starts_with: ID
-
-  """All values not starting with the given string."""
   id_not_starts_with: ID
-
-  """All values ending with the given string."""
   id_ends_with: ID
-
-  """All values not ending with the given string."""
   id_not_ends_with: ID
   name: String
-
-  """All values that are not equal to given value."""
   name_not: String
-
-  """All values that are contained in given list."""
   name_in: [String!]
-
-  """All values that are not contained in given list."""
   name_not_in: [String!]
-
-  """All values less than the given value."""
   name_lt: String
-
-  """All values less than or equal the given value."""
   name_lte: String
-
-  """All values greater than the given value."""
   name_gt: String
-
-  """All values greater than or equal the given value."""
   name_gte: String
-
-  """All values containing the given string."""
   name_contains: String
-
-  """All values not containing the given string."""
   name_not_contains: String
-
-  """All values starting with the given string."""
   name_starts_with: String
-
-  """All values not starting with the given string."""
   name_not_starts_with: String
-
-  """All values ending with the given string."""
   name_ends_with: String
-
-  """All values not ending with the given string."""
   name_not_ends_with: String
   items_every: ItemWhereInput
   items_some: ItemWhereInput
@@ -1958,13 +1369,16 @@ input TemplateLystWhereInput {
   teams_every: TeamWhereInput
   teams_some: TeamWhereInput
   teams_none: TeamWhereInput
+  AND: [TemplateLystWhereInput!]
+  OR: [TemplateLystWhereInput!]
+  NOT: [TemplateLystWhereInput!]
 }
 
 input TemplateLystWhereUniqueInput {
   id: ID
 }
 
-type User implements Node {
+type User {
   id: ID!
   name: String!
   email: String!
@@ -1976,12 +1390,8 @@ type User implements Node {
   teams(where: TeamWhereInput, orderBy: TeamOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Team!]
 }
 
-"""A connection to a list of items."""
 type UserConnection {
-  """Information to aid in pagination."""
   pageInfo: PageInfo!
-
-  """A list of edges."""
   edges: [UserEdge]!
   aggregate: AggregateUser!
 }
@@ -1990,11 +1400,11 @@ input UserCreateInput {
   name: String!
   email: String!
   avatar: String
-  itemsCompleted: Int
-  pro: Boolean
   checkLysts: CheckLystCreateManyWithoutUsersInput
   templateLysts: TemplateLystCreateManyWithoutUsersInput
-  teams: TeamCreateManyWithoutUsersInput
+  itemsCompleted: Int
+  pro: Boolean
+  teams: TeamCreateManyInput
 }
 
 input UserCreateManyInput {
@@ -2004,11 +1414,6 @@ input UserCreateManyInput {
 
 input UserCreateManyWithoutCheckLystsInput {
   create: [UserCreateWithoutCheckLystsInput!]
-  connect: [UserWhereUniqueInput!]
-}
-
-input UserCreateManyWithoutTeamsInput {
-  create: [UserCreateWithoutTeamsInput!]
   connect: [UserWhereUniqueInput!]
 }
 
@@ -2026,38 +1431,24 @@ input UserCreateWithoutCheckLystsInput {
   name: String!
   email: String!
   avatar: String
+  templateLysts: TemplateLystCreateManyWithoutUsersInput
   itemsCompleted: Int
   pro: Boolean
-  templateLysts: TemplateLystCreateManyWithoutUsersInput
-  teams: TeamCreateManyWithoutUsersInput
-}
-
-input UserCreateWithoutTeamsInput {
-  name: String!
-  email: String!
-  avatar: String
-  itemsCompleted: Int
-  pro: Boolean
-  checkLysts: CheckLystCreateManyWithoutUsersInput
-  templateLysts: TemplateLystCreateManyWithoutUsersInput
+  teams: TeamCreateManyInput
 }
 
 input UserCreateWithoutTemplateLystsInput {
   name: String!
   email: String!
   avatar: String
+  checkLysts: CheckLystCreateManyWithoutUsersInput
   itemsCompleted: Int
   pro: Boolean
-  checkLysts: CheckLystCreateManyWithoutUsersInput
-  teams: TeamCreateManyWithoutUsersInput
+  teams: TeamCreateManyInput
 }
 
-"""An edge in a connection."""
 type UserEdge {
-  """The item at the end of the edge."""
   node: User!
-
-  """A cursor for use in pagination."""
   cursor: String!
 }
 
@@ -2074,10 +1465,10 @@ enum UserOrderByInput {
   itemsCompleted_DESC
   pro_ASC
   pro_DESC
-  updatedAt_ASC
-  updatedAt_DESC
   createdAt_ASC
   createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
 }
 
 type UserPreviousValues {
@@ -2097,132 +1488,91 @@ type UserSubscriptionPayload {
 }
 
 input UserSubscriptionWhereInput {
-  """Logical AND on all given filters."""
-  AND: [UserSubscriptionWhereInput!]
-
-  """Logical OR on all given filters."""
-  OR: [UserSubscriptionWhereInput!]
-
-  """Logical NOT on all given filters combined by AND."""
-  NOT: [UserSubscriptionWhereInput!]
-
-  """
-  The subscription event gets dispatched when it's listed in mutation_in
-  """
   mutation_in: [MutationType!]
-
-  """
-  The subscription event gets only dispatched when one of the updated fields names is included in this list
-  """
   updatedFields_contains: String
-
-  """
-  The subscription event gets only dispatched when all of the field names included in this list have been updated
-  """
   updatedFields_contains_every: [String!]
-
-  """
-  The subscription event gets only dispatched when some of the field names included in this list have been updated
-  """
   updatedFields_contains_some: [String!]
   node: UserWhereInput
+  AND: [UserSubscriptionWhereInput!]
+  OR: [UserSubscriptionWhereInput!]
+  NOT: [UserSubscriptionWhereInput!]
 }
 
 input UserUpdateDataInput {
   name: String
   email: String
   avatar: String
-  itemsCompleted: Int
-  pro: Boolean
   checkLysts: CheckLystUpdateManyWithoutUsersInput
   templateLysts: TemplateLystUpdateManyWithoutUsersInput
-  teams: TeamUpdateManyWithoutUsersInput
+  itemsCompleted: Int
+  pro: Boolean
+  teams: TeamUpdateManyInput
 }
 
 input UserUpdateInput {
   name: String
   email: String
   avatar: String
-  itemsCompleted: Int
-  pro: Boolean
   checkLysts: CheckLystUpdateManyWithoutUsersInput
   templateLysts: TemplateLystUpdateManyWithoutUsersInput
-  teams: TeamUpdateManyWithoutUsersInput
+  itemsCompleted: Int
+  pro: Boolean
+  teams: TeamUpdateManyInput
 }
 
 input UserUpdateManyInput {
   create: [UserCreateInput!]
+  delete: [UserWhereUniqueInput!]
   connect: [UserWhereUniqueInput!]
   disconnect: [UserWhereUniqueInput!]
-  delete: [UserWhereUniqueInput!]
   update: [UserUpdateWithWhereUniqueNestedInput!]
   upsert: [UserUpsertWithWhereUniqueNestedInput!]
 }
 
 input UserUpdateManyWithoutCheckLystsInput {
   create: [UserCreateWithoutCheckLystsInput!]
+  delete: [UserWhereUniqueInput!]
   connect: [UserWhereUniqueInput!]
   disconnect: [UserWhereUniqueInput!]
-  delete: [UserWhereUniqueInput!]
   update: [UserUpdateWithWhereUniqueWithoutCheckLystsInput!]
   upsert: [UserUpsertWithWhereUniqueWithoutCheckLystsInput!]
 }
 
-input UserUpdateManyWithoutTeamsInput {
-  create: [UserCreateWithoutTeamsInput!]
-  connect: [UserWhereUniqueInput!]
-  disconnect: [UserWhereUniqueInput!]
-  delete: [UserWhereUniqueInput!]
-  update: [UserUpdateWithWhereUniqueWithoutTeamsInput!]
-  upsert: [UserUpsertWithWhereUniqueWithoutTeamsInput!]
-}
-
 input UserUpdateManyWithoutTemplateLystsInput {
   create: [UserCreateWithoutTemplateLystsInput!]
+  delete: [UserWhereUniqueInput!]
   connect: [UserWhereUniqueInput!]
   disconnect: [UserWhereUniqueInput!]
-  delete: [UserWhereUniqueInput!]
   update: [UserUpdateWithWhereUniqueWithoutTemplateLystsInput!]
   upsert: [UserUpsertWithWhereUniqueWithoutTemplateLystsInput!]
 }
 
 input UserUpdateOneInput {
   create: UserCreateInput
-  connect: UserWhereUniqueInput
-  disconnect: Boolean
-  delete: Boolean
   update: UserUpdateDataInput
   upsert: UserUpsertNestedInput
+  delete: Boolean
+  connect: UserWhereUniqueInput
 }
 
 input UserUpdateWithoutCheckLystsDataInput {
   name: String
   email: String
   avatar: String
+  templateLysts: TemplateLystUpdateManyWithoutUsersInput
   itemsCompleted: Int
   pro: Boolean
-  templateLysts: TemplateLystUpdateManyWithoutUsersInput
-  teams: TeamUpdateManyWithoutUsersInput
-}
-
-input UserUpdateWithoutTeamsDataInput {
-  name: String
-  email: String
-  avatar: String
-  itemsCompleted: Int
-  pro: Boolean
-  checkLysts: CheckLystUpdateManyWithoutUsersInput
-  templateLysts: TemplateLystUpdateManyWithoutUsersInput
+  teams: TeamUpdateManyInput
 }
 
 input UserUpdateWithoutTemplateLystsDataInput {
   name: String
   email: String
   avatar: String
+  checkLysts: CheckLystUpdateManyWithoutUsersInput
   itemsCompleted: Int
   pro: Boolean
-  checkLysts: CheckLystUpdateManyWithoutUsersInput
-  teams: TeamUpdateManyWithoutUsersInput
+  teams: TeamUpdateManyInput
 }
 
 input UserUpdateWithWhereUniqueNestedInput {
@@ -2233,11 +1583,6 @@ input UserUpdateWithWhereUniqueNestedInput {
 input UserUpdateWithWhereUniqueWithoutCheckLystsInput {
   where: UserWhereUniqueInput!
   data: UserUpdateWithoutCheckLystsDataInput!
-}
-
-input UserUpdateWithWhereUniqueWithoutTeamsInput {
-  where: UserWhereUniqueInput!
-  data: UserUpdateWithoutTeamsDataInput!
 }
 
 input UserUpdateWithWhereUniqueWithoutTemplateLystsInput {
@@ -2262,12 +1607,6 @@ input UserUpsertWithWhereUniqueWithoutCheckLystsInput {
   create: UserCreateWithoutCheckLystsInput!
 }
 
-input UserUpsertWithWhereUniqueWithoutTeamsInput {
-  where: UserWhereUniqueInput!
-  update: UserUpdateWithoutTeamsDataInput!
-  create: UserCreateWithoutTeamsInput!
-}
-
 input UserUpsertWithWhereUniqueWithoutTemplateLystsInput {
   where: UserWhereUniqueInput!
   update: UserUpdateWithoutTemplateLystsDataInput!
@@ -2275,233 +1614,90 @@ input UserUpsertWithWhereUniqueWithoutTemplateLystsInput {
 }
 
 input UserWhereInput {
-  """Logical AND on all given filters."""
-  AND: [UserWhereInput!]
-
-  """Logical OR on all given filters."""
-  OR: [UserWhereInput!]
-
-  """Logical NOT on all given filters combined by AND."""
-  NOT: [UserWhereInput!]
   id: ID
-
-  """All values that are not equal to given value."""
   id_not: ID
-
-  """All values that are contained in given list."""
   id_in: [ID!]
-
-  """All values that are not contained in given list."""
   id_not_in: [ID!]
-
-  """All values less than the given value."""
   id_lt: ID
-
-  """All values less than or equal the given value."""
   id_lte: ID
-
-  """All values greater than the given value."""
   id_gt: ID
-
-  """All values greater than or equal the given value."""
   id_gte: ID
-
-  """All values containing the given string."""
   id_contains: ID
-
-  """All values not containing the given string."""
   id_not_contains: ID
-
-  """All values starting with the given string."""
   id_starts_with: ID
-
-  """All values not starting with the given string."""
   id_not_starts_with: ID
-
-  """All values ending with the given string."""
   id_ends_with: ID
-
-  """All values not ending with the given string."""
   id_not_ends_with: ID
   name: String
-
-  """All values that are not equal to given value."""
   name_not: String
-
-  """All values that are contained in given list."""
   name_in: [String!]
-
-  """All values that are not contained in given list."""
   name_not_in: [String!]
-
-  """All values less than the given value."""
   name_lt: String
-
-  """All values less than or equal the given value."""
   name_lte: String
-
-  """All values greater than the given value."""
   name_gt: String
-
-  """All values greater than or equal the given value."""
   name_gte: String
-
-  """All values containing the given string."""
   name_contains: String
-
-  """All values not containing the given string."""
   name_not_contains: String
-
-  """All values starting with the given string."""
   name_starts_with: String
-
-  """All values not starting with the given string."""
   name_not_starts_with: String
-
-  """All values ending with the given string."""
   name_ends_with: String
-
-  """All values not ending with the given string."""
   name_not_ends_with: String
   email: String
-
-  """All values that are not equal to given value."""
   email_not: String
-
-  """All values that are contained in given list."""
   email_in: [String!]
-
-  """All values that are not contained in given list."""
   email_not_in: [String!]
-
-  """All values less than the given value."""
   email_lt: String
-
-  """All values less than or equal the given value."""
   email_lte: String
-
-  """All values greater than the given value."""
   email_gt: String
-
-  """All values greater than or equal the given value."""
   email_gte: String
-
-  """All values containing the given string."""
   email_contains: String
-
-  """All values not containing the given string."""
   email_not_contains: String
-
-  """All values starting with the given string."""
   email_starts_with: String
-
-  """All values not starting with the given string."""
   email_not_starts_with: String
-
-  """All values ending with the given string."""
   email_ends_with: String
-
-  """All values not ending with the given string."""
   email_not_ends_with: String
   avatar: String
-
-  """All values that are not equal to given value."""
   avatar_not: String
-
-  """All values that are contained in given list."""
   avatar_in: [String!]
-
-  """All values that are not contained in given list."""
   avatar_not_in: [String!]
-
-  """All values less than the given value."""
   avatar_lt: String
-
-  """All values less than or equal the given value."""
   avatar_lte: String
-
-  """All values greater than the given value."""
   avatar_gt: String
-
-  """All values greater than or equal the given value."""
   avatar_gte: String
-
-  """All values containing the given string."""
   avatar_contains: String
-
-  """All values not containing the given string."""
   avatar_not_contains: String
-
-  """All values starting with the given string."""
   avatar_starts_with: String
-
-  """All values not starting with the given string."""
   avatar_not_starts_with: String
-
-  """All values ending with the given string."""
   avatar_ends_with: String
-
-  """All values not ending with the given string."""
   avatar_not_ends_with: String
-  itemsCompleted: Int
-
-  """All values that are not equal to given value."""
-  itemsCompleted_not: Int
-
-  """All values that are contained in given list."""
-  itemsCompleted_in: [Int!]
-
-  """All values that are not contained in given list."""
-  itemsCompleted_not_in: [Int!]
-
-  """All values less than the given value."""
-  itemsCompleted_lt: Int
-
-  """All values less than or equal the given value."""
-  itemsCompleted_lte: Int
-
-  """All values greater than the given value."""
-  itemsCompleted_gt: Int
-
-  """All values greater than or equal the given value."""
-  itemsCompleted_gte: Int
-  pro: Boolean
-
-  """All values that are not equal to given value."""
-  pro_not: Boolean
   checkLysts_every: CheckLystWhereInput
   checkLysts_some: CheckLystWhereInput
   checkLysts_none: CheckLystWhereInput
   templateLysts_every: TemplateLystWhereInput
   templateLysts_some: TemplateLystWhereInput
   templateLysts_none: TemplateLystWhereInput
+  itemsCompleted: Int
+  itemsCompleted_not: Int
+  itemsCompleted_in: [Int!]
+  itemsCompleted_not_in: [Int!]
+  itemsCompleted_lt: Int
+  itemsCompleted_lte: Int
+  itemsCompleted_gt: Int
+  itemsCompleted_gte: Int
+  pro: Boolean
+  pro_not: Boolean
   teams_every: TeamWhereInput
   teams_some: TeamWhereInput
   teams_none: TeamWhereInput
-  _MagicalBackRelation_ItemToUser_every: ItemWhereInput
-  _MagicalBackRelation_ItemToUser_some: ItemWhereInput
-  _MagicalBackRelation_ItemToUser_none: ItemWhereInput
-  _MagicalBackRelation_TeamAdmins_every: TeamWhereInput
-  _MagicalBackRelation_TeamAdmins_some: TeamWhereInput
-  _MagicalBackRelation_TeamAdmins_none: TeamWhereInput
-  _MagicalBackRelation_ChecklystCreator_every: CheckLystWhereInput
-  _MagicalBackRelation_ChecklystCreator_some: CheckLystWhereInput
-  _MagicalBackRelation_ChecklystCreator_none: CheckLystWhereInput
-  _MagicalBackRelation_TeamCreators_every: TeamWhereInput
-  _MagicalBackRelation_TeamCreators_some: TeamWhereInput
-  _MagicalBackRelation_TeamCreators_none: TeamWhereInput
-  _MagicalBackRelation_TeamOwner_every: TeamWhereInput
-  _MagicalBackRelation_TeamOwner_some: TeamWhereInput
-  _MagicalBackRelation_TeamOwner_none: TeamWhereInput
-  _MagicalBackRelation_LabelToUser_every: LabelWhereInput
-  _MagicalBackRelation_LabelToUser_some: LabelWhereInput
-  _MagicalBackRelation_LabelToUser_none: LabelWhereInput
-  _MagicalBackRelation_ActivityToUser_every: ActivityWhereInput
-  _MagicalBackRelation_ActivityToUser_some: ActivityWhereInput
-  _MagicalBackRelation_ActivityToUser_none: ActivityWhereInput
+  AND: [UserWhereInput!]
+  OR: [UserWhereInput!]
+  NOT: [UserWhereInput!]
 }
 
 input UserWhereUniqueInput {
   id: ID
   email: String
 }
+`
+      }
+    

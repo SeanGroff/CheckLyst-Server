@@ -8,7 +8,7 @@ import morgan from 'morgan'
 import bodyParser from 'body-parser'
 import cors from 'cors'
 import { GraphQLServer } from 'graphql-yoga'
-import { Prisma } from 'prisma-binding'
+import { Prisma } from './generated'
 
 // import authRoutes from './routes/authRoutes'
 
@@ -68,10 +68,7 @@ const server = new GraphQLServer({
   resolvers,
   context: req => ({
     req,
-    prisma: new Prisma({
-      typeDefs: './src/generated/prisma.graphql',
-      endpoint: 'https://checklyst-server.herokuapp.com/CheckLyst-Server/dev',
-    }),
+    prisma: Prisma,
   }),
 })
 

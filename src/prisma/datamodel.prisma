@@ -9,7 +9,7 @@ type CheckLyst {
   id: ID! @unique
   name: String!
   items: [Item!]!
-  createdBy: User! @relation(name: "ChecklystCreator")
+  createdBy: User! @relation(name: "CheckLystOwner")
   users: [User!]! @relation(name: "UserChecklysts")
   activityLog: [Activity!]!
   label: Label
@@ -42,15 +42,12 @@ type TemplateLyst {
 type Team {
   id: ID! @unique
   name: String!
-  owner: User! @relation(name: "TeamOwner")
-  admins: [User!]! @relation(name: "TeamAdmins")
-  creators: [User!]! @relation(name: "TeamCreators")
-  users: [User!]! @relation(name: "TeamOfUsers")
   logo: String @default(value: "placeholder.jpg")
   checkLysts: [CheckLyst!]! @relation(name: "TeamChecklysts")
   templateLysts: [TemplateLyst!]! @relation(name: "TeamTemplates")
   itemsCompleted: Int @default(value: "0")
   activityLogs: [Activity!]!
+  permissions: [Permission!]! @relation(name: "TeamPermissions")
 }
 
 type User {
@@ -62,7 +59,14 @@ type User {
   templateLysts: [TemplateLyst!]! @relation(name: "UserTemplates")
   itemsCompleted: Int! @default(value: "0")
   pro: Boolean! @default(value: "false")
-  teams: [Team!]! @relation(name: "TeamOfUsers")
+  teams: [Team!]!
+  permissions: [Permission!]! @relation(name: "UserPermissions")
+}
+
+type Permission {
+  id: ID! @unique
+  teams: [Team!]! @relation(name: "TeamPermissions")
+  users: [User!]! @relation(name: "UserPermissions")
 }
 
 enum Color {
@@ -78,4 +82,11 @@ enum ActivityType {
   EDIT
   DELETE
   COMPLETE
+}
+
+enum PermissionLevel {
+  OWNER
+  ADMIN
+  CREATOR
+  USER
 }
